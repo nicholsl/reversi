@@ -17,7 +17,7 @@ OEIS_ID_DIGITS = 6
 
 
 def seq_id_from_number(sequence_number):
-    return "A" + str(sequence_number).zfill(6)
+    return "A" + str(sequence_number).zfill(OEIS_ID_DIGITS)
 
 
 def retrieve_object_from_url(url):
@@ -99,6 +99,10 @@ def print_matching_sequences_summary(terms_string: str, unordered, show_all):
 
 
 def replace_links(string: str):
+    """Converts all links in a string that use the <a> html tag to just having the link url followed by link text.
+    Example: replace_links('blah <a href="http://www.google.com">Google search engine</a> something')
+    returns: 'blah http://www.google.com Google search engine something'
+    """
     split_on_links = string.split("<a href=\"")
     for i, s in enumerate(split_on_links):
         split_on_links[i] = s.replace("\">", " ", 1).replace("</a>", "", 1)
@@ -106,7 +110,13 @@ def replace_links(string: str):
 
 
 def print_all_info_for_sequence(search_string):
+    """Queries OEIS for the search string as a sequence ID, and prints all information for the first sequence that
+    the OEIS API sends back."""
     data_from_server = retrieve_object_from_url("https://oeis.org/search?fmt=json&q=id:" + search_string)
+    if data_from_server["results"] is None:
+        # If no sequences are found, tell the user and quit early.
+        print(f"OEIS does not have a sequence with ID {search_string} (yet).")
+        return
     print(f"All information on sequence {search_string}:")
     wrapper = TextWrapper(width=80, break_on_hyphens=False, break_long_words=False, initial_indent=' ' * 2,
                           subsequent_indent=' ' * 4)
@@ -116,29 +126,40 @@ def print_all_info_for_sequence(search_string):
             value = value[0]
 
         if isinstance(value, list):
+            # Treat multiple items in a list as separate content lines, each with own wrapping
             replaced = [replace_links(s) for s in value]
             content = '\n'.join(map(wrapper.fill, replaced))
         elif key == "data":
             header = "Terms:"
             content = wrapper.fill(value.replace(",", ", "))
         elif key == "number":
+            # Convert sequence numbers to IDs
             header = "ID:"
             content = wrapper.fill(seq_id_from_number(value))
         else:
             content = wrapper.fill(str(value))
         content = replace_links(content)
+
+        # Print the header and content on one line if it will fit, otherwise print the header on its own line and
+        # content after
         if len(header + content) <= 80:
             print(header + content)
         else:
             print(header, content, sep='\n')
 
+        # print newlines after entries to separate them, except the last one
+        # ("created" is always the last key of the OrderedDict)
+        if key != "created":
+            print()
+
 
 def oeis_query(string):
     """Given the user's inputted search string, return a tuple (query type, formatted query), where query type is either
     "sequence id" or "terms", and formatted query is a corrected query string. Raises argparse.ArgumentTypeError if
-    the string does not fit either format."""
-    if string[0] == "A" and len(string) == 7 and string[1:].isdigit():
-        # Search for single sequence must be of the form A<6 digits>
+    the string does not fit either format.
+    Intended to be used as the type parameter for an argparse argument."""
+    if string[0] == "A" and len(string) == OEIS_ID_DIGITS + 1 and string[1:].isdigit():
+        # Search for single sequence must be of the form A<OEIS_ID_DIGITS digits>
         return "sequence id", string
 
     # If the string is not a sequence id, then we assume it's a list of terms, which must be a comma-separated
@@ -166,11 +187,12 @@ def get_parsed_args():
                         help="search for sequences containing the given terms in any order")
     parser.add_argument("-a", "--show-all", action="store_true",
                         help=f"show all matching sequences, rather than just the first {RESULTS_PER_QUERY} (may take "
-                             "a long time)")
+                             "a minute or more)")
     return parser.parse_args()
 
 
 def main():
+    """Function called if ran from command line, parses arguments and performs requested operation"""
     args = get_parsed_args()
     query_type, formatted_query = args.query
     if query_type == "terms":
