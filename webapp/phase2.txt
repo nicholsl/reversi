@@ -1,0 +1,11 @@
+Josh Gerstein and Cameron Kline-Sharpe
+Data: Concession information found in LAX content management system with generic information of available concessions at LAX. Includes exact GPS coordinates, location within airport, brief description, and category of service provided.
+Link page: https://catalog.data.gov/dataset/los-angeles-international-airport-terminal-concession-locations
+download link: https://data.lacity.org/api/views/j6u4-c4yh/rows.csv?accessType=DOWNLOAD
+
+User Stories:
+As a tourist, I need to find somewhere closeby that sells souvenirs.
+As someone going to the LAX airport, I want to be able to get a list of all the places that serve food, so I can find somewhere to eat.
+As a person going to a meeting in LAX, I want to be able to find where a specific business is given its name, so I won't be late for my meeting.
+As someone with a flight leaving from terminal 5, I want to know what services are available in that terminal.
+As someone currently in LAX, I want to know what services are available near me, so I can do something without going too far from my gate.
