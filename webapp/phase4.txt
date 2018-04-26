@@ -1,0 +1,29 @@
+Cameron Kline-Sharpe and Josh Gerstein
+
+Create Table Statements:
+    CREATE TABLE services (
+        id integer,
+        CompanyName text,
+        CompanyDescription text,
+        CompanyLocationDescription text,
+        Terminal text,
+        Location text,
+        Categories text,
+        LocationPhone text,
+        Lat real,
+        Long real
+    );
+    Used to fulfill the specifications of the /services? endpoint.
+
+    CREATE TABLE terminals (
+        id SERIAL,
+        name text
+    );
+    Lists all the LAX terminals.
+    
+    CREATE TABLE services_in_terminal (
+        terminal_id integer,
+        service_id integer
+    );
+    Associates terminals with services. We are using this method because there are some services which are associated with more than one terminal.
+    
