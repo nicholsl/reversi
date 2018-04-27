@@ -9,8 +9,11 @@ def load_from_services_csv_file(csv_file_name):
     """Collect all the data from the services .csv file, assembling it into a list of services, a dictionary of
     terminals, and a list of service/terminal ID links.
     """
-    csv_file = open(csv_file_name)
+    csv_file = open(csv_file_name, encoding="UTF-8")
     reader = csv.reader(csv_file)
+
+    # Skip the first row, which is data headers.
+    next(reader)
 
     terminals = {"Terminal 1": 0, "Terminal 2": 1, "Terminal 3": 2, "Terminal 4": 3, "Terminal 5": 4, "Terminal 6": 5,
                  "Terminal 7": 6, "Terminal 8": 7, "TBIT": 8}
@@ -24,8 +27,8 @@ def load_from_services_csv_file(csv_file_name):
                    ("Categories", row[11]), ("LocationPhone", row[16]), ("Lat", row[20]), ("Long", row[21]))
         service = OrderedDict(service)
         services.append(service)
-        # In our dataset, the only instance of two terminals for one service has "Terminal 6/7"
-        if service["Terminal"] == "Terminal 6/7":
+        # In our dataset, the only instance of two terminals for one service has "Terminal 6/7 "
+        if service["Terminal"] == "Terminal 6/7 ":
             services_in_terminals.append({"ServiceId": service["id"], "TerminalId": terminals["Terminal 6"]})
             services_in_terminals.append({"ServiceId": service["id"], "TerminalId": terminals["Terminal 7"]})
         else:
@@ -73,6 +76,7 @@ def save_linking_table(services_in_terminal, csv_file_name):
 
 
 def main():
+    """Read the original data file and create three csv files with data for tables."""
     services, terminals, services_terminals = load_from_services_csv_file(
         "Los_Angeles_International_Airport_-_Terminal_Concession_Locations.csv")
 
