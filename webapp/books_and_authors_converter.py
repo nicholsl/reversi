@@ -1,22 +1,6 @@
-# !/usr/bin/env python3
+""" Template by Jeff Ondich, modified by Josh Gerstein and Cameron Kline-Sharpe
+Updated 26 April 2018
 """
-    books_and_authors_converter.py
-    Jeff Ondich, 24 April 2017
-    Updated 20 April 2018
-
-    Sample code illustrating a simple conversion of the
-    books & authors dataset represented as in books_and_authors.csv,
-    into the books, authors, and books_authors tables (in
-    CSV form).
-
-    This is trickier than my json_to_tables.py example,
-    because in the books.csv file, the authors are implicit
-    in the list of books rather than being separated out
-    into their own data structure as they are in the
-    books_and_authors.json file.
-"""
-import sys
-import re
 import csv
 from collections import OrderedDict
 
@@ -60,49 +44,40 @@ def save_services_table(services, csv_file_name):
     for service in services:
         service_row = []
         for value in service.values():
-            #There are some non-breaking spaces and breaking spaces in the csv file where there should be NULL values.
+            # There are some instances of ", ," and ",\xA0," in the csv file where there should be ",,"
             if value in " \xA0":
                 service_row.append("NULL")
-
             else:
                 service_row.append(value)
         writer.writerow(service_row)
     output_file.close()
 
 
-def save_authors_table(authors, csv_file_name):
-    """ Save the books in CSV form, with each row containing
-        (id, last name, first name, birth year, death year), where
-        death year can be NULL. """
+def save_terminals_table(terminals, csv_file_name):
+    """Save the terminals as a csv, each row containing (id, terminal name)"""
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
-    for author in sorted(authors, key=authors.get):
-        (last_name, first_name, birth_year, death_year) = author
-        if not death_year:
-            death_year = 'NULL'
-        author_id = authors[author]
-        author_row = [author_id, last_name, first_name, birth_year, death_year]
-        writer.writerow(author_row)
+    for terminal, id_ in terminals.items():
+        writer.writerow([id_, terminal])
     output_file.close()
 
 
-def save_linking_table(books_authors, csv_file_name):
-    """ Save the books in CSV form, with each row containing
-        (book id, author id). """
+def save_linking_table(services_in_terminal, csv_file_name):
+    """Save links as a csv, with each row containing (terminal id, service id)."""
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
-    for book_author in books_authors:
-        books_authors_row = [book_author["book_id"], book_author["author_id"]]
-        writer.writerow(books_authors_row)
+    for service_terminal in services_in_terminal:
+        services_in_terminal_row = [service_terminal["TerminalId"], service_terminal["ServiceId"]]
+        writer.writerow(services_in_terminal_row)
     output_file.close()
 
 
 def main():
     services, terminals, services_terminals = load_from_services_csv_file(
-        "Los_Angeles_International_Airport_-_Terminal_Concession_Locations")
+        "Los_Angeles_International_Airport_-_Terminal_Concession_Locations.csv")
 
     save_services_table(services, "services.csv")
-    save_authors_table(terminals, "terminals.csv")
+    save_terminals_table(terminals, "terminals.csv")
     save_linking_table(services_terminals, "services_terminals.csv")
 
 
