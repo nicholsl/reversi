@@ -8,11 +8,12 @@ API Endpoints:
 				{'CompanyLocationID': 1852,	'CompanyID': 1288,	'CompanyName': 'XpresSpa', 	'CompanyDescription': NULL,...,'Address': 500 World Way},
 				...all other services...
 			]
-	Endpoint: /services?terminal=<terminal>&gps=<coordinates and radius>&search_string=<string>&service_type=<service type>&company_location_id=<id>
+	Endpoint: /services?terminal=<terminal>&coordinates=<coordinates>&radius=<radius>&search_string=<string>&service_type=<service type>&company_location_id=<id>
 		Summary: Returns services filtered by the given parameters
 		Parameter description: 
 			terminal: A terminal name, one of "Terminal X" for X in 1,...,8 or "TBIT" for Tom Bradley International Terminal. Filters out all services which are not in the given terminal
-			gps: Coordinates (+-X,+-Y) and radius in meters, filters out services that are not in a circle of radius around the given coordinates. Radius is optional--if omitted, will use a default of 100 meters.
+			coordinates: Coordinates (+-X,+-Y), filters out services that are not in a circle of radius <radius>
+			            around the given coordinates. Radius is optional--if omitted, will use a default of 100 meters.
 			search_string: Filters out any services that do not have search_string as a substring of the CompanyName. 
 			service_type: Filters out any services that do not have their Categories field matching the service_type.
 			company_location_id: Finds the service with the CompanyLocationID <id>.
@@ -25,20 +26,6 @@ API Endpoints:
 					{'CompanyLocationID': 1852,	'CompanyID': 1288,	'CompanyName': 'XpresSpa', 	'CompanyDescription': NULL,...other fields...,'Address': 500 World Way},
 					...all other matching services...
 				]
-	Endpoint: /locations/<search string>?service_type=<service type>
-		Summary: Returns the CompanyName, gps coordinates, Location field, and Terminal of all services which match the search term and are (optionally) have the Categories field equal <service_type>.
-		Parameter Description:
-			<search string>: Filters out all services which do not have <search string> as a substring of their CompanyName.
-			service_type: Filters out all services which do not have Catagories field equal to <service type>.
-		Response Format: JSON list of objects containing CompanyName, gps coords, Location field, and Terminal field
-		Example Query:
-			Url:
-				.../locations/Blvgari
-			Response:
-				[
-					{'CompanyLocationID': 1727,	'CompanyID': 1163,	'CompanyName': 'Blvgari',...other fields...,'Address': 500 World Way}
-				]
-			
 User Stories:
 As a tourist, I need to find somewhere closeby that sells souvenirs.
 	This person could be served with the API endpoint /services?service_type='GIFT SHOPS AND NEWS STANDS' with some combiniation of gps and terminal parameters, and would receive a list of all gift shops near them according to the paramters they used.

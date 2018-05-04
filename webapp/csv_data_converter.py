@@ -42,37 +42,34 @@ def save_services_table(services, csv_file_name):
     """Save the services in CSV form, with each row containing: (id, CompanyName, CompanyDescription,
     CompanyLocationDescription, Terminal, Location, Categories, LocationPhone, Lat, Long)
     """
-    output_file = open(csv_file_name, 'w')
-    writer = csv.writer(output_file)
-    for service in services:
-        service_row = []
-        for value in service.values():
-            # There are some instances of ", ," and ",\xA0," in the csv file where there should be ",,"
-            if value in " \xA0":
-                service_row.append("NULL")
-            else:
-                service_row.append(value)
-        writer.writerow(service_row)
-    output_file.close()
+    with open(csv_file_name, 'w', newline='', encoding="UTF-8") as output_file:
+        writer = csv.writer(output_file)
+        for service in services:
+            service_row = []
+            for value in service.values():
+                # There are some instances of ", ," and ",\xA0," in the csv file where there should be ",,"
+                if value in " \xA0":
+                    service_row.append("NULL")
+                else:
+                    service_row.append(value)
+            writer.writerow(service_row)
 
 
 def save_terminals_table(terminals, csv_file_name):
     """Save the terminals as a csv, each row containing (id, terminal name)"""
-    output_file = open(csv_file_name, 'w')
-    writer = csv.writer(output_file)
-    for terminal, id_ in terminals.items():
-        writer.writerow([id_, terminal])
-    output_file.close()
+    with open(csv_file_name, 'w', newline='', encoding="UTF-8") as output_file:
+        writer = csv.writer(output_file)
+        for terminal, id_ in terminals.items():
+            writer.writerow([id_, terminal])
 
 
 def save_linking_table(services_in_terminal, csv_file_name):
     """Save links as a csv, with each row containing (terminal id, service id)."""
-    output_file = open(csv_file_name, 'w')
-    writer = csv.writer(output_file)
-    for service_terminal in services_in_terminal:
-        services_in_terminal_row = [service_terminal["TerminalId"], service_terminal["ServiceId"]]
-        writer.writerow(services_in_terminal_row)
-    output_file.close()
+    with open(csv_file_name, 'w', newline='', encoding="UTF-8") as output_file:
+        writer = csv.writer(output_file)
+        for service_terminal in services_in_terminal:
+            services_in_terminal_row = [service_terminal["TerminalId"], service_terminal["ServiceId"]]
+            writer.writerow(services_in_terminal_row)
 
 
 def main():
