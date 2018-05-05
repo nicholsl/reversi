@@ -12,7 +12,7 @@ API Endpoints:
 		Summary: Returns services filtered by the given parameters
 		Parameter description: 
 			terminal: A terminal name, one of "Terminal X" for X in 1,...,8 or "TBIT" for Tom Bradley International Terminal. Filters out all services which are not in the given terminal
-			coordinates: Coordinates (+-X,+-Y), filters out services that are not in a circle of radius <radius>
+			coordinates: Coordinates (+-latitude,+-longitude), filters out services that are not in a circle of radius <radius>
 			            around the given coordinates. Radius is optional--if omitted, will use a default of 100 meters.
 			search_string: Filters out any services that do not have search_string as a substring of the CompanyName. 
 			service_type: Filters out any services that do not have their Categories field matching the service_type.
