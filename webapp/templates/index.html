@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}" />
+    <script>var api_port = {{ api_port }};</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='main_page.js') }}" defer></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <title>Search LAX</title>
+</head>
+
+<body>
+    <h1>What's In LAX?</h1>
+    <h2>Search:</h2>
+	
+	<p><form action="/results" method="get">
+		Service Name: <input type="text" name="search_string"><br>
+		Terminal: <select name="Terminal">
+			<option value="Null" selected>--</option>
+			<option value="Terminal 1">Terminal 1</option>
+			<option value="Terminal 2">Terminal 2</option>
+			<option value="Terminal 3">Terminal 3</option>
+			<option value="Terminal 4">Terminal 4</option>
+			<option value="Terminal 5">Terminal 5</option>
+			<option value="Terminal 6">Terminal 6</option>
+			<option value="Terminal 7">Terminal 7</option>
+			<option value="Terminal 8">Terminal 8</option>
+			<option value="TBIT">TBIT</option>
+		</select><br>
+		Service Type: <select name="service_type">
+			<option value="Null" selected>--</option>
+			<option value="SPAS">Spas</option>
+			<option value="FOOD AND BEVERAGE FACILITIES">Food And Beverage Facilities</option>
+			<option value="GIFT SHOPS AND NEWS STANDS">Gift Shops And News Stands</option>
+			<option value="CURRENCY EXCHANGE">Currency Exchange</option>
+			<option value="DUTY FREE SHOPS">Duty Free Shops</option>
+			<option value="AIR CARRIER">Air Carrier</option>
+			<option value="MISCELLANEOUS">Miscellaneous</option>
+			<option value="MEDICAL FACILITIES">Medical Facilities</option>
+			<option value="CONTRACT SECURITY SERVICES">Contract Security Services</option>
+			<option value="TRAVELERS ASSISTANCE">Travelers Assistance</option>
+			<option value="CUSTODIAL SERVICES">Custodial Services</option>
+			<option value="GOVERNMENT AGENCIES">Government Agencies</option>
+		</select><br>
+		<button type="button" onclick="fillLocation()">Use my location</button><br>
+		GPS cordinates:  Latitude: <input type="text" name="latitude">
+		Longitude: <input type="text" name="longitude"><br>
+		How close to you?  <input type="text" name="radius"> meters<br>
+		<button type="submit">Search</button>
+	</form></p>
+	
+	
+
+    <p><button id="authors_button">Get authors</button></p>
+
+    <p><table id="results_table"></table></p>
+
+  </body>
+</html>

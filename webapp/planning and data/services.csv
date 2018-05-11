@@ -1,4 +1,4 @@
-1852,XpresSpa,NULL,"XpresSpa offers the ultimate relaxation experience such as a facial, massage, manicure, pedicure, waxing and much more.",Terminal 5,Departure Level,"BUSINESS SERVICES, SPAS",310-846-0098,33.941728024712546,-118.40436608602692
+1852,XpresSpa,NULL,"XpresSpa offers the ultimate relaxation experience such as a facial, massage, manicure, pedicure, waxing and much more.",Terminal 5,Departure Level,SPAS,310-846-0098,33.941728024712546,-118.40436608602692
 1902,Treat Me Sweet,NULL,Shop for a variety of candy at Treat Me Sweet.,TBIT,Departure Level,FOOD AND BEVERAGE FACILITIES,424-800-2037,NULL,NULL
 1850,Treat Me Sweet,NULL,Shop for a variety of candy at Treat Me Sweet.,Terminal 1,Departure Level,GIFT SHOPS AND NEWS STANDS,310-641-1546,33.94670050288552,-118.401312364418
 1686,Starbucks Evenings,NULL,"Starbucks Evenings has all of the wonderful coffee drinks they're known for plus appetizers, beer and wine.",TBIT,South Concourse,FOOD AND BEVERAGE FACILITIES,(310) 258-9627,33.940304,-118.409946
@@ -13,7 +13,7 @@
 1705,Bliss,NULL,"Everything the traveler needs to feel good. Bath and spa products from Bliss, from sunscreens to soaps to soothing lotions for all skin types.  ",TBIT,South Concourse,GIFT SHOPS AND NEWS STANDS,(424) 750-9001,33.94112,-118.41034
 1724,Michael Kors,NULL,"The top rung on the fashion ladder these days belongs to superstar American designer Michael Kors. His fashion-forward handbags and accessories virtually call to passersby from this bright and appealing store. Sexy, curved glass enclosures and a bold marq",TBIT,Great Hall,GIFT SHOPS AND NEWS STANDS,424-800-2274,33.94346443,-118.41043628
 1701,Fred Segal,NULL,"The ivy-covered façade alerts you that you are about to enter the airport outpost of Fred Segal’s high end department store, one of the top LA haunts of A-list celebrities shopping for anything from high fashion to funky retro duds, kids wear to home good",TBIT,Great Hall,GIFT SHOPS AND NEWS STANDS,310-646-1770,33.94331523,-118.41036513
-444,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 2,Arrival Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",310-646-5818,33.94533676,-118.40407122
+444,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 2,Arrival Level,CURRENCY EXCHANGE,310-646-5818,33.94533676,-118.40407122
 1919,Shake Shack,NULL,Shake Shack grills up 100% all-natural Angus beef and crinkle cut fries.,Terminal 3,Departure Level,FOOD AND BEVERAGE FACILITIES,310-307-7499,33.946675560497454,-118.4074050288408
 1938,Panda Express ,NULL,"Panda express is well known for its teriyaki chicken, egg rolls, fried rice and other Asian favorites.",Terminal 3,NULL,FOOD AND BEVERAGE FACILITIES,NULL,NULL,NULL
 1937,Earthbar ,NULL,"Earthbar offers healthy snacks, smoothies, and grab & go food options.",Terminal 3,Departure Level,FOOD AND BEVERAGE FACILITIES,NULL,NULL,NULL
@@ -34,7 +34,7 @@
 1828,Pick Up Stix,NULL,Pick Up Stix features a range of Asian comfort food.,Terminal 2,Departure Level,FOOD AND BEVERAGE FACILITIES,(310)301-9008,33.94617994,-118.40416421
 1827,CNBC Smartshop,NULL,"Shop for last minute souvenirs, medicine, or snacks at CNBC News.",Terminal 2,Departure Level,GIFT SHOPS AND NEWS STANDS,424-277-3771,33.94598022770159,-118.4042035855573
 1861,Barney's Beanery,NULL,"Barney's Beanery features bar bites, burgers, Mexican, and much more.",Terminal 2,Departure Level,FOOD AND BEVERAGE FACILITIES,310-646-1770,33.94590948,-118.40407631
-1627,ICE Currency Exchange Kiosk,NULL,NULL,Terminal 6,Departure Level,"BUSINESS SERVICES, CURRENCY EXCHANGE",(310) 642-1899,33.94116996,-118.40204648
+1627,ICE Currency Exchange Kiosk,NULL,NULL,Terminal 6,Departure Level,CURRENCY EXCHANGE,(310) 642-1899,33.94116996,-118.40204648
 1606,DFS Duty Free,NULL,DFS Duty Free offers a variety of products for travelers. Domestic passengers are invited to purchase everything but liquor and tobacco.,Terminal 2,Departure Level,DUTY FREE SHOPS,(310) 348-2642,33.945992314935175,-118.40391363152048
 1797,The Coffee Bean & Tea Leaf,NULL,"The Coffee Bean & Tea Leaf has an assortment of specialty coffee and blended coffee drinks, as well as tea and baked goods.",TBIT,Arrival Level,FOOD AND BEVERAGE FACILITIES,310-646-1770,33.94373286,-118.40862114
 1810,The Coffee Bean & Tea Leaf,NULL,"The Coffee Bean & Tea Leaf has an assortment of specialty coffee and blended coffee drinks, as well as tea and baked goods.",Terminal 5,Arrival Level,FOOD AND BEVERAGE FACILITIES,310-337-1011,33.942569137209006,-118.40457529833009
@@ -53,17 +53,17 @@
 1066,United Airlines,"All United Premier, First Class, and Business Class passengers check- in at Terminal 6","All United Premier, First Class and Business Class passengers check-in at Terminal 6",Terminal 6,NULL,AIR CARRIER,(310) 342-9509,NULL,NULL
 1317,United Airlines,All United Airlines passengers with Paper Tickets and Non Ticketed passengers check-in at Terminal 8.,NULL,Terminal 8,NULL,AIR CARRIER,(800) 241-6522,NULL,NULL
 1245,United Airlines,"All United Airlines passengers with ""E Tickects"" check-in at Terminal 7.",NULL,Terminal 7,NULL,AIR CARRIER,(310) 342-9509,NULL,NULL
-449,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 4,Departure Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",310-646-2929,33.941473,-118.406727
-447,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 3,Departure Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",(310) 646-0553,33.94578042,-118.4072246
-450,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 7,Departure Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",(310) 646-7934,33.941507,-118.399652
+449,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 4,Departure Level,CURRENCY EXCHANGE,310-646-2929,33.941473,-118.406727
+447,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 3,Departure Level,CURRENCY EXCHANGE,(310) 646-0553,33.94578042,-118.4072246
+450,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 7,Departure Level,CURRENCY EXCHANGE,(310) 646-7934,33.941507,-118.399652
 1799,Wolfgang Puck Express,NULL,"Wolfgang Puck Express features Wolfgang's most popular dishes in a fast-casual setting with affordable prices. The menu features Wolfgang Puck's hand-crafted gourmet pizzas, sandwiches, soups, fresh salads and other Wolfgang Puck classics. ",Terminal 7,Departure Level,FOOD AND BEVERAGE FACILITIES,310-654-6951,33.941327,-118.39979
 1682,800 Degrees Pizza,NULL,"800 Degrees Pizza – a Los Angeles based concept – offers traditional Neapolitan pizza baked in an 800 degree real wood-burning oven. Passengers can order from a few favorite combinations, or can personalize their pizza and create their own masterpiece!",TBIT,Great Hall - Food Court,FOOD AND BEVERAGE FACILITIES,(310) 258-9541,33.94385039,-118.41019519
-1816,ICE Currency Exchange Kiosk,NULL,NULL,TBIT,Ticketing Level,"BUSINESS SERVICES, CURRENCY EXCHANGE",(310) 646-1950,33.94374858,-118.40854606
+1816,ICE Currency Exchange Kiosk,NULL,NULL,TBIT,Ticketing Level,CURRENCY EXCHANGE,(310) 646-1950,33.94374858,-118.40854606
 1808,Hudson Newsstand (Gate 31A),NULL,NULL,Terminal 3,Departure Level,GIFT SHOPS AND NEWS STANDS,310-646-1770,33.946237,-118.407583
-1626,ICE Currency Exchange Kiosk,NULL,NULL,Terminal 5,Departure Level,"BUSINESS SERVICES, CURRENCY EXCHANGE",(310) 348-1725,33.941984,-118.404579
-454,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 6,Arrival Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",310-646-7761,NULL,NULL
-452,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 2,Departure Level,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",310-642-9225,33.94585952,-118.40391666
-451,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,TBIT,North Concourse,"BUSINESS SERVICES, INSURANCE, CURRENCY EXCHANGE",310-417-0364,33.94397816,-118.40869457
+1626,ICE Currency Exchange Kiosk,NULL,NULL,Terminal 5,Departure Level,CURRENCY EXCHANGE,(310) 348-1725,33.941984,-118.404579
+454,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 6,Arrival Level,CURRENCY EXCHANGE,310-646-7761,NULL,NULL
+452,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,Terminal 2,Departure Level,CURRENCY EXCHANGE,310-642-9225,33.94585952,-118.40391666
+451,ICE Currency Exchange Kiosk,Located in LAX  airport.,NULL,TBIT,North Concourse,CURRENCY EXCHANGE,310-417-0364,33.94397816,-118.40869457
 1872,Thomas Cook Airlines,NULL,NULL,Terminal 6,Departure Level,AIR CARRIER,(855) 759-3665,NULL,NULL
 1617,Virgin Australia,Virgin Australia passengers check-in at Terminal 2. Passengers will be bused from Terminal 2 to the Tom Bradley International Terminal (Terminal B) for departure. Arriving passengers may be met at Terminal B.,Passengers will check in at Terminal 2; walk to Terminal B where flights depart/arrive,Terminal 2,Departure Level,AIR CARRIER,(855) 253-8021,NULL,NULL
 1869,Southwest Int'l,NULL,International passengers check in at Terminal 1; will be bused to Terminal B where international flights depart/arrive,TBIT,Departure Level,AIR CARRIER,(800) 435-9792,NULL,NULL
@@ -72,15 +72,15 @@
 1736,Norwegian Air Shuttle,NULL,NULL,TBIT,Departure Level,AIR CARRIER,(800) 357-4159,NULL,NULL
 517,LATAM,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-1954,NULL,NULL
 526,LAX Two Corp.,Management corp. at LAX.,NULL,Terminal 2,NULL,MISCELLANEOUS,(310) 417-0392,NULL,NULL
-551,Air Berlin,NULL,NULL,TBIT,NULL,"AIR CARRIER, ALL CARGO AIRLINES",(917) 261-3165,NULL,NULL
+551,Air Berlin,NULL,NULL,TBIT,NULL,AIR CARRIER,(917) 261-3165,NULL,NULL
 334,EVA Air,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(800) 695-1188,NULL,NULL
-376,First Aid Station,Located in Tom Bradley International Terminal.,NULL,TBIT,Departure Level,MEDICAL FACILITIES/MUNICIPAL AGENCIES,(310) 215-6000,NULL,NULL
+376,First Aid Station,Located in Tom Bradley International Terminal.,NULL,TBIT,Departure Level,MEDICAL FACILITIES,(310) 215-6000,NULL,NULL
 40,Air China,NULL,NULL,TBIT,NULL,AIR CARRIER,(310) 215-1188,NULL,NULL
 43,Air France,NULL,NULL,TBIT,NULL,AIR CARRIER,(310) 646-0035,NULL,NULL
 50,Air New Zealand,NULL,NULL,TBIT,NULL,AIR CARRIER,(310) 646-3069,NULL,NULL
 924,Fiji Airways,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(866) 767-2247,NULL,NULL
 56,Air Tahiti Nui,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 258-9913,NULL,NULL
-71,Airport Terminal Services,NULL,NULL,Terminal 3,T-3,GROUND HANDLING SERVICES/AIRCRAFT SERVICES,(310) 646-2297,NULL,NULL
+71,Airport Terminal Services,NULL,NULL,Terminal 3,T-3,MISCELLANEOUS,(310) 646-2297,NULL,NULL
 79,Alaska Airlines,"At LAX, Mexico International Arrivals are located in the Tom Bradley International Terminal (TBIT).",NULL,Terminal 6,T-6,AIR CARRIER,(310) 665-1454,NULL,NULL
 87,All Nippon Airways (ANA),Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-1480,NULL,NULL
 130,Argenbright ,Security Screening Services provided at LAX.,NULL,Terminal 5,Departure Level,CONTRACT SECURITY SERVICES,(310) 649-1201,NULL,NULL
@@ -187,7 +187,7 @@ Ontario - Terminal 4 (T-4)", International passengers check in at Terminal 1; wi
 1860,I Love LA,NULL,"I Love LA offers airport shoppers a wide variety of items such as souvenirs, beverages, magazines, and more at reasonable prices.",Terminal 1,Departure Level,GIFT SHOPS AND NEWS STANDS,310-641-1512,33.946641072262,-118.40104282905747
 1621,I Love LA,NULL,"I Love LA offers airport shoppers a wide variety of items such as souvenirs, beverages, magazines, and more at reasonable prices.",Terminal 5,Departure Level,GIFT SHOPS AND NEWS STANDS,(310) 645-3753,33.941476,-118.404588
 1848,SOL Surf,NULL,Shop for surf and beachwear at Sol Surf.,Terminal 1,Departure Level,GIFT SHOPS AND NEWS STANDS,310-641-1538,33.946647,-118.4013
-1851,Be Relax,NULL,Unwind with several relaxation and beauty services at Be Relax.,Terminal 1,Departure Level,BUSINESS SERVICES,310-342-0100,33.94664487874867,-118.40128331779101
+1851,Be Relax,NULL,Unwind with several relaxation and beauty services at Be Relax.,Terminal 1,Departure Level,SPAS,310-342-0100,33.94664487874867,-118.40128331779101
 1691,Rock & Brews Concert Bar & Grill,NULL,Rock & Brews serves up a variety of bar bites.,Terminal 5,Departure Level,FOOD AND BEVERAGE FACILITIES,424-702-1619,33.94106829768135,-118.4045224576721
 1855,Rock & Brews Concert Bar and Grill,NULL,Rock & Brews serves up a variety of bar bites.,Terminal 1,Departure Level,FOOD AND BEVERAGE FACILITIES,424-702-4597,33.94667222292691,-118.40128691007783
 1874,Aer Lingus,NULL,NULL,Terminal 2,Departure Level,AIR CARRIER,(800) 474-7424,NULL,NULL
@@ -249,39 +249,39 @@ go items.",TBIT,Ticketing Level,FOOD AND BEVERAGE FACILITIES,310-646-1770,33.943
 1638,Corona Bar,NULL,American comfort food with a Mexican touch and a great bar and lounge area to relax.,Terminal 8,Departure Level,FOOD AND BEVERAGE FACILITIES,213-235-0250,33.941301,-118.397109
 1734,Engine Co. No. 28,NULL,"Located in T8, Engine Co. No. 28 is a restaurant serving Classic American dishes with a Southern touch with a full bar.",Terminal 8,Departure Level,FOOD AND BEVERAGE FACILITIES,213-235-0256,33.942075,-118.397222
 1935,Hong Kong Airlines,NULL,NULL,TBIT,Departure Level,AIR CARRIER,(855) 393-3880,NULL,NULL
-645,Pedus Building Service,NULL,NULL,TBIT,Departure Level - Custodial Service,"CUSTODIAL SERVICE, GENERAL AIRPORT CLEANING SERVICES",(310) 646-1313,NULL,NULL
+645,Pedus Building Service,NULL,NULL,TBIT,Departure Level - Custodial Service,CUSTODIAL SERVICES,(310) 646-1313,NULL,NULL
 650,Philippine Airlines,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-2693,NULL,NULL
-691,Riscomp Industries,NULL,NULL,Terminal 5,T-5,NULL,(310) 646-0361,NULL,NULL
+691,Riscomp Industries,NULL,NULL,Terminal 5,T-5,MISCELLANEOUS,(310) 646-0361,NULL,NULL
 720,Singapore Airlines,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(866) 767-2247,NULL,NULL
 468,ITS (Int'l Total Services Security Screening),Services provided at LAX.,NULL,Terminal 3,NULL,CONTRACT SECURITY SERVICES,(310) 410-5330,NULL,NULL
 472,Japan Airlines,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-2640,NULL,NULL
 495,KLM Royal Dutch Airlines,NULL,NULL,TBIT,NULL,AIR CARRIER,(310) 646-1139,NULL,NULL
 499,Korean Airlines,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(800) 438-5000,NULL,NULL
 1191,TSA Lost & Found,"To retrieve items left behind in any of the passenger security checkpoints, contact the above number from the hours of 0600-2200.  Office is open 7 days a week.     ",NULL,Terminal 6,NULL,GOVERNMENT AGENCIES,(310) 242-9073,NULL,NULL
-1221,One Source,NULL,NULL,TBIT,NULL,GENERAL AIRPORT CLEANING SERVICES,646-1313,NULL,NULL
+1221,One Source,NULL,NULL,TBIT,NULL,CUSTODIAL SERVICES,646-1313,NULL,NULL
 1237,West Jet,NULL,NULL,Terminal 2,NULL,AIR CARRIER,(888) 937-8538,NULL,NULL
 1072,Virgin Atlantic,NULL,NULL,Terminal 2,NULL,AIR CARRIER,(310) 215-4342,NULL,NULL
 1140,Lufthansa,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-7150,NULL,NULL
-1089,Bravo Aviation,Heliport facilities,NULL,Terminal 4,NULL,AIRCRAFT CHARTERS,(310) 337-6701,NULL,NULL
+1089,Bravo Aviation,Heliport facilities,NULL,Terminal 4,NULL,MISCELLANEOUS,(310) 337-6701,NULL,NULL
 1141,Swiss International Air Lines Ltd.,NULL,NULL,TBIT,NULL,AIR CARRIER,(877) 359-7947,NULL,NULL
-765,Superior Airline Services,NULL,NULL,Terminal 3,NULL,AIRCRAFT SERVICES,(310) 410-1132,NULL,NULL
+765,Superior Airline Services,NULL,NULL,Terminal 3,NULL,MISCELLANEOUS,(310) 410-1132,NULL,NULL
 804,Travelers Info-VIP,NULL,NULL,Terminal 1,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-2271,NULL,NULL
 805,Travelers Info-VIP,NULL,NULL,Terminal 2,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-2272,NULL,NULL
 806,Travelers Info-VIP,NULL,NULL,Terminal 3,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-2273,NULL,NULL
 807,Travelers Info-VIP,NULL,NULL,Terminal 4,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-2274,NULL,NULL
 810,Travelers Info-VIP,NULL,NULL,Terminal 7,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-2277,NULL,NULL
 811,Travelers Info-VIP,NULL,NULL,TBIT,Arrival Level,TRAVELERS ASSISTANCE,(310) 646-7365,NULL,NULL
-822,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 2,Arrival Level,"GOVERNMENT AGENCIES, AGRICULTURE",(310) 646-2936,NULL,NULL
-823,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 6,Arrival Level,"GOVERNMENT AGENCIES, AGRICULTURE",(310) 348-7512,NULL,NULL
-1040,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,TBIT,Arrival Level,"GOVERNMENT AGENCIES, AGRICULTURE",(310) 215-2431,NULL,NULL
-1041,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 5,Arrival Level,"GOVERNMENT AGENCIES, AGRICULTURE",(310) 646-4397,NULL,NULL
+822,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 2,Arrival Level,GOVERNMENT AGENCIES,(310) 646-2936,NULL,NULL
+823,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 6,Arrival Level,GOVERNMENT AGENCIES,(310) 348-7512,NULL,NULL
+1040,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,TBIT,Arrival Level,GOVERNMENT AGENCIES,(310) 215-2431,NULL,NULL
+1041,"U.S. Dept. of Agriculture, Dept. of Plant Protection",NULL,NULL,Terminal 5,Arrival Level,GOVERNMENT AGENCIES,(310) 646-4397,NULL,NULL
 829,U. S. Customs Service,NULL,NULL,TBIT,Arrival Level - Tom Bradley International Terminal,GOVERNMENT AGENCIES,(310) 568-7545,NULL,NULL
 833,U.S. Immigration and Naturalization Service,NULL,NULL,TBIT,Arrival Level - Tom Bradley International Terminal,GOVERNMENT AGENCIES,(310) 568-7500,NULL,NULL
 840,U.S. Public Health Service,"For public inquiries, call the Centers for Disease Control and Prevention (CDC) Hotline:
 (888) 246-2675",NULL,TBIT,Division of Quarantine,GOVERNMENT AGENCIES,(310) 215-2427,NULL,NULL
 841,U.S. Public Health Service,"For public inquiries, call the Centers for Disease Control and Prevention (CDC) Hotline:
 (888) 246-2675",NULL,Terminal 2,Arrival Level,GOVERNMENT AGENCIES,(310) 215-2427,NULL,NULL
-113,American Building Maintenance (ABM),NULL,NULL,Terminal 2,Departure Level,"CUSTODIAL SERVICE, GENERAL AIRPORT CLEANING SERVICES",(310) 670-3057,NULL,NULL
+113,American Building Maintenance (ABM),NULL,NULL,Terminal 2,Departure Level,CUSTODIAL SERVICES,(310) 670-3057,NULL,NULL
 22,Aeroflot,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 281-5300,NULL,NULL
 1457,Aeromexico ,NULL,NULL,Terminal 2,NULL,AIR CARRIER,(310) 646-0339,NULL,NULL
 318,El Al Israel Airlines,Located in Tom Bradley International Terminal (TBIT).,NULL,TBIT,NULL,AIR CARRIER,(310) 646-3765,NULL,NULL
@@ -352,4 +352,4 @@ go items.",TBIT,Ticketing Level,FOOD AND BEVERAGE FACILITIES,310-646-1770,33.943
 1651,Book Soup,NULL,Search for a book or magazine at the Book Soup Bookstore.,Terminal 7,Departure Level,GIFT SHOPS AND NEWS STANDS,(310) 642-0971,33.942041,-118.399524
 1737,Pinkberry,NULL,"An airport favorite, Pinkberry is a go-to place for frozen yogurt with all the toppings.",TBIT,South Concourse,FOOD AND BEVERAGE FACILITIES,(424) 227-7535,33.941011,-118.410207
 1842,Pinkberry,NULL,"An airport favorite, Pinkberry is a go-to place for frozen yogurt with all the toppings.",TBIT,Arrival Level,FOOD AND BEVERAGE FACILITIES,310-646-1770,33.94339875,-118.40869147
-1853,XpresSpa,NULL,"XpresSpa offers the ultimate relaxation experience such as a facial, massage, manicure, pedicure, waxing and much more.",TBIT,Departure Level,"BUSINESS SERVICES, SPAS",310-410-1950,33.940403,-118.410234
+1853,XpresSpa,NULL,"XpresSpa offers the ultimate relaxation experience such as a facial, massage, manicure, pedicure, waxing and much more.",TBIT,Departure Level,SPAS,310-410-1950,33.940403,-118.410234

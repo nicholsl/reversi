@@ -34,6 +34,22 @@ def load_from_services_csv_file(csv_file_name):
         else:
             services_in_terminals.append({"ServiceId": service["id"], "TerminalId": terminals[service["Terminal"]]})
 
+        categories = service["Categories"]
+        if "AIRCR" in categories or service["Categories"] == '':
+            service["Categories"] = "MISCELLANEOUS"
+        elif "GOVERNMENT" in categories:
+            service["Categories"] = "GOVERNMENT AGENCIES"
+        elif "MEDICAL" in categories:
+            service["Categories"] = "MEDICAL FACILITIES"
+        elif "CLEANING" in categories:
+            service["Categories"] = "CUSTODIAL SERVICES"
+        elif "SPAS" in categories or categories == "BUSINESS SERVICES":
+            service["Categories"] = "SPAS"
+        elif "CURRENCY EXCHANGE" in categories:
+            service["Categories"] = "CURRENCY EXCHANGE"
+        elif "ALL CARGO AIRLINES" in categories:
+            service["Categories"] = "AIR CARRIER"
+
     csv_file.close()
     return services, terminals, services_in_terminals
 

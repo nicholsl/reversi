@@ -33,7 +33,7 @@ def get_services():
                         <radius> around the given coordinates. Radius is optional--if omitted, will use a default of 100
                          meters.
             search_string: Filters out any services that do not have search_string as a substring of the CompanyName. 
-            service_type: Filters out any services that do not have their Categories field matching the service_type.
+            service_type: Filters out any services that do not have their category field matching the service_type.
             company_location_id: Finds the service with the CompanyLocationID <id>.
         If a GET parameter is absent, then any service is treated as though
         it meets the corresponding constraint. (That is, accept a movie unless
@@ -44,7 +44,7 @@ def get_services():
         "coordinates": flask.request.args.get('coordinates'),
         "radius": flask.request.args.get('radius', type=float),
         "search_string": flask.request.args.get('search_string'),
-        "categories": flask.request.args.get('service_type'),
+        "category": flask.request.args.get('service_type'),
         "id": flask.request.args.get('company_location_id', type=int)}
     #use parameters_tuple to avoid the possibility of sql injection
     query_string, parameters_tuple = create_sql_query(parameters_dict)
@@ -159,7 +159,7 @@ def cursor_row_to_service_dict(row):
     :return: the dictionary containing all the data for the given service
     """
     keys = ("id", "company_name", "company_description", "company_location_description", "terminal", "location",
-            "categories", "location_phone", "lat", "long")
+            "category", "location_phone", "lat", "long")
     return dict(zip(keys, row))
 
 

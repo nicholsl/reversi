@@ -8,7 +8,7 @@ Create Table Statements:
         company_location_description text,
         terminal text,
         location text,
-        categories text,
+        category text,
         location_phone text,
         lat real,
         long real
