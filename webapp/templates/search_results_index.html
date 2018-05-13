@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}" />
+    <script>var api_port = {{ api_port }};</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='search_results.js') }}" defer></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <title>Search Results</title>
+</head>
+
+<body>
+	<p><table id="results_table"></table></p>
+</body>
+
+</html>
