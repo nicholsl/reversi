@@ -91,7 +91,7 @@ function getUserDistanceFromCoords(serviceLat, serviceLon) {
 function removeEmptyParams(params) {
 	// Given search parameters, return a new parameters object that omits parameters with empty value
 	var newParams = new URLSearchParams(params);
-	for (var item in params) {
+	for (var item of params.entries()) {
 		if (!item[1]) {
 			newParams.delete(item[0]);
 		}
@@ -101,7 +101,7 @@ function removeEmptyParams(params) {
 
 function getAPISearchUrl(){
 	// Generate URL for the API based on GET parameters of current page.
-	let filteredParams = removeEmptyParams(searchParams)
+	let filteredParams = removeEmptyParams(searchParams);
 	return getAPIBaseURL() + "/services?" + filteredParams.toString();
 }
 
