@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Template by Jeff Ondich
+""" Template by Jeff Ondich, modified by Josh Gerstein and Cameron Kline-Sharpe
 """
 import sys
 
@@ -10,23 +10,24 @@ app = flask.Flask(__name__, static_folder='static', template_folder='templates')
 
 @app.route('/')
 def get_main_page():
-    return flask.render_template('index.html', api_port=sys.argv[3])
+    return flask.render_template('index.html')
 
 
 @app.route('/results')
 def get_results_page():
-    parameters_dict = {
-        "terminal": flask.request.args.get('terminal'),
-        "coordinates": flask.request.args.get('coordinates'),
-        "radius": flask.request.args.get('radius', type=float),
-        "search_string": flask.request.args.get('search_string'),
-        "categories": flask.request.args.get('service_type')}
-    return flask.render_template('results.html', get_parameters=parameters_dict)
+    # parameters_dict = {
+    #     "terminal": flask.request.args.get('terminal'),
+    #     "coordinates": flask.request.args.get('coordinates'),
+    #     "radius": flask.request.args.get('radius', type=float),
+    #     "search_string": flask.request.args.get('search_string'),
+    #     "categories": flask.request.args.get('service_type')}
+    # return flask.render_template('results.html', get_parameters=parameters_dict)
+    return flask.render_template('results.html', api_port=int(sys.argv[3]))
 
 
-@app.route('/details/<int:id>')
-def get_details_page():
-    return flask.render_template('details.html', id=id)
+@app.route('/results/<int:service_id>')
+def get_details_page(service_id):
+    return flask.render_template('details.html', api_port=int(sys.argv[3]))
 
 
 def main():
@@ -35,10 +36,13 @@ def main():
         exit()
 
     host = sys.argv[1]
-    port = sys.argv[2]
+    port = int(sys.argv[2])
     # api_port = sys.argv[3]
-
-    app.run(host=host, port=port)
+    if host == "perlman.mathcs.carleton.edu":
+        context = ("gersteinj.carleton.edu.crt", "gersteinj.carleton.edu.key")
+        app.run(host=host, port=port, debug=True, ssl_context=context)
+    else:
+        app.run(host=host, port=port, debug=True)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""api.py, by Josh Gerstein and Cameron Kline-Sharpe, 5/4/2018. Written for CS 257 Software Design with Jeff Ondich
+""" api.py, by Josh Gerstein and Cameron Kline-Sharpe, 5/4/2018. Written for CS 257 Software Design with Jeff Ondich
 at Carleton College, Spring 2018
 Implementation of our api endpoint, /services?parameters, using flask.
 Accesses and performs queries on our database on perlman.mathcs.carleton.edu with psycopg2
@@ -21,7 +21,8 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Hello, LAX services API user. Maybe you were looking for <a href=\"services\">/services</a>?"
+    website_port = int(sys.argv[2]) + 100
+    return flask.redirect("https://{0}:{1}/".format(sys.argv[1], website_port), code=301)
 
 
 @app.route('/services')
@@ -46,14 +47,20 @@ def get_services():
         "search_string": flask.request.args.get('search_string'),
         "category": flask.request.args.get('service_type'),
         "id": flask.request.args.get('company_location_id', type=int)}
-    #use parameters_tuple to avoid the possibility of sql injection
+    # Use parameters_tuple to avoid the possibility of sql injection
     query_string, parameters_tuple = create_sql_query(parameters_dict)
     services_list = query_perlman(query_string, parameters_tuple)
     json_services = json.dumps(services_list, indent=4, ensure_ascii=False)
-    # Minimal html formatting to make it display as a readable json with monospaced font, instead of all on one line
-    # with a standard font.
-    formatted_html_response = "<html>\n<meta charset=\"utf-8\" />\n<pre>\n{}</pre>\n</html>".format(json_services)
-    return formatted_html_response
+    response = flask.Response(json_services)
+    response.headers["Content-Type"] = "application/json; charset=utf-8"
+    # formatted_html_response = "<html>\n<meta charset=\"utf-8\" />\n<body><pre>\n{}</pre></body>\n</html>".format(json_services)
+    return response
+
+
+@app.after_request
+def set_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 def create_sql_query(parameters_dict):
@@ -88,7 +95,7 @@ def create_sql_query(parameters_dict):
                         print(e, file=sys.stderr)
                         continue
                     if parameters_dict["radius"] is None:
-                        #creating default value for radius if no radius was given
+                        # Creating default value for radius if no radius was given
                         current_radius = 100
                     else:
                         current_radius = parameters_dict["radius"]
@@ -114,6 +121,7 @@ def create_sql_query(parameters_dict):
     return query_string, tuple(parameters)
 
 
+# noinspection PyBroadException
 def query_perlman(query_string, parameters_tuple):
     """Connects to our database, then executes the given query using query_string and parameters_tuple using a cursor
         to read the information. Returns a list of dictionaries for all services which are returned when the
@@ -164,9 +172,7 @@ def cursor_row_to_service_dict(row):
 
 
 def main():
-    """
-    Process command line arguments and run the API
-    """
+    """ Process command line arguments and run the API """
     if len(sys.argv) != 3:
         print('Usage:\n    {} host port'.format(sys.argv[0]))
         print('Example:\n    {} perlman.mathcs.carleton.edu 5101'.format(sys.argv[0]))
@@ -174,7 +180,11 @@ def main():
 
     host = sys.argv[1]
     port = int(sys.argv[2])
-    app.run(host=host, port=port, debug=True)
+    if host == "perlman.mathcs.carleton.edu":
+        context = ("gersteinj.carleton.edu.crt", "gersteinj.carleton.edu.key")
+        app.run(host=host, port=port, debug=True, ssl_context=context)
+    else:
+        app.run(host=host, port=port, debug=True)
 
 
 if __name__ == '__main__':
