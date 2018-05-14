@@ -1,9 +1,11 @@
-/* By Josh Gerstein and Cameron Kline-Sharpe */
+/* By Josh Gerstein and Cameron Kline-Sharpe
+Script for /results/<id> page. */
 
-
+// Create variables for all the relevant HTML elements.
 var titleElt = document.getElementById("title");
 var headingElt = document.getElementById("company_name")
 var descriptionElt = document.getElementById("description");
+var description2Elt = document.getElementById("description2");
 var categoryElt = document.getElementById("category");
 var terminalElt = document.getElementById("terminal");
 var locationElt = document.getElementById("location");
@@ -41,7 +43,7 @@ function fillPageWithService(serviceJSON) {
 			descriptionElt.innerHTML += "...";
 		}
 		if (service["company_description"]) {
-			descriptionElt.innerHTML += "</dd><dd>" + service["company_description"];
+			description2Elt.innerHTML += service["company_description"];
 		}
 	} else if (service["company_description"]) {
 		descriptionElt.innerHTML = service["company_description"];
@@ -50,6 +52,7 @@ function fillPageWithService(serviceJSON) {
 		descriptionElt.setAttribute("class", "unimportant");
 	}
 	
+	// Fill in the other table items if present, and if not, put "Not Provided"
 	if (service["category"]) {
 		categoryElt.innerHTML = service["category"].toTitleCase();
 	} else {
@@ -72,6 +75,7 @@ function fillPageWithService(serviceJSON) {
 	}
 	
 	if (service["location_phone"]) {
+		// URI for phone numbers
 		phoneElt.innerHTML = '<a href="tel:+' + service["location_phone"] + '">' + service["location_phone"];
 		phoneElt.innerHTML += '</a>';
 	} else {
@@ -88,10 +92,6 @@ String.prototype.toTitleCase = function () {
 	/* Function that converts strings to titlecase, written by Tuan from https://stackoverflow.com/a/5574446 */
     return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
-
-
-
-
 
 function getAPISearchURL() {
     let APIbaseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;

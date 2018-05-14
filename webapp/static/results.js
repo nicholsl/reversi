@@ -1,16 +1,13 @@
 /*
 	Created by Cameron Kline-Sharpe and Joshua Gerstein
-	
+	Script for /results?<GET parameters> page
 	IMPORTANT CONFIGURATION INFORMATION
-	The contents of getBaseURL below reflects our assumption that
-	the web application (books_website.py) and the API (books_api.py)
-	will be running on the same host but on different ports.
+	The contents of getAPISearchURL below reflects our assumption that the web 
+	application and the API will be running on the same host but on different ports.
 	
 	TO DO:
 		Add table headings
-		Impliment 3 great circle calc functions
-		Impliment clean_url()
-	
+		Impliment 3 great circle calc functions	
 */
 
 var searchParams = new URLSearchParams(window.location.search.substring(1));
@@ -21,7 +18,7 @@ function initialize() {
 	let locationProvided = searchParams.get("latitude") && searchParams.get("longitude");
 	
 	// Send the request to the services API /services endpoint
-    fetch(getAPISearchUrl(), {method: 'get'})
+    fetch(getAPISearchURL(), {method: 'get'})
 
     // When the results come back, transform them from JSON string into
     // a Javascript object (in this case, a list of author dictionaries).
@@ -32,7 +29,7 @@ function initialize() {
     .then(function(resultsArray) {
         // Build the table body.
         let tableBody = '';
-		// TODO: add in the table headings.
+		// TODO: add in the table headings and sorting
         for (var k = 0; k < resultsArray.length; k++) {
             let tableRow = '<tr>';
 
@@ -66,8 +63,8 @@ function initialize() {
 			
 			// Add in the Distance (only if provided current location)
 			if (locationProvided) {
-				let serviceLat = resultsArray[k]["latitude"];
-				let serviceLon = resultsArray[k]["longitude"];
+				let serviceLat = resultsArray[k]["lat"];
+				let serviceLon = resultsArray[k]["long"];
 				tableRow += '<td>' + getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
 			}
 			
@@ -87,7 +84,6 @@ function getUserDistanceFromCoords(serviceLat, serviceLon) {
 	return 100;
 }
 
-
 function removeEmptyParams(params) {
 	// Given search parameters, return a new parameters object that omits parameters with empty value
 	var newParams = new URLSearchParams(params);
@@ -99,13 +95,9 @@ function removeEmptyParams(params) {
 	return newParams;
 }
 
-function getAPISearchUrl(){
-	// Generate URL for the API based on GET parameters of current page.
+function getAPISearchURL(){
+	// Generate URL for the API based on filtered GET parameters of current page.
 	let filteredParams = removeEmptyParams(searchParams);
-	return getAPIBaseURL() + "/services?" + filteredParams.toString();
-}
-
-function getAPIBaseURL() {
-    var APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;
-    return APIBaseURL;
+	var APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;
+	return APIBaseURL + "/services?" + filteredParams.toString();
 }
