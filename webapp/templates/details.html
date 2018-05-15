@@ -12,7 +12,50 @@
 </head>
 
 <body>
+
 <h1 id="company_name"></h1>
+
+<p id="Search Header">
+<form action="/results" method="get">
+		Service Name: <input type="text" name="search_string"><br>
+		Terminal: <select name="terminal">
+			<option value="" selected>--</option>
+			<option value="Terminal 1">Terminal 1</option>
+			<option value="Terminal 2">Terminal 2</option>
+			<option value="Terminal 3">Terminal 3</option>
+			<option value="Terminal 4">Terminal 4</option>
+			<option value="Terminal 5">Terminal 5</option>
+			<option value="Terminal 6">Terminal 6</option>
+			<option value="Terminal 7">Terminal 7</option>
+			<option value="Terminal 8">Terminal 8</option>
+			<option value="TBIT">TBIT</option>
+		</select><br>
+		Service Type: <select name="service_type">
+			<option value="" selected>--</option>
+			<option value="SPAS">Spas</option>
+			<option value="FOOD AND BEVERAGE FACILITIES">Food And Beverage Facilities</option>
+			<option value="GIFT SHOPS AND NEWS STANDS">Gift Shops And News Stands</option>
+			<option value="CURRENCY EXCHANGE">Currency Exchange</option>
+			<option value="DUTY FREE SHOPS">Duty Free Shops</option>
+			<option value="AIR CARRIER">Air Carrier</option>
+			<option value="MISCELLANEOUS">Miscellaneous</option>
+			<option value="MEDICAL FACILITIES">Medical Facilities</option>
+			<option value="CONTRACT SECURITY SERVICES">Contract Security Services</option>
+			<option value="TRAVELERS ASSISTANCE">Travelers Assistance</option>
+			<option value="CUSTODIAL SERVICES">Custodial Services</option>
+			<option value="GOVERNMENT AGENCIES">Government Agencies</option>
+		</select><br>
+		<button type="button" onclick="getLocation()">Use my location</button><br>
+		<fieldset><legend>GPS Information</legend>
+			Latitude: <input type="text" name="latitude" id="lat_input">
+			Longitude: <input type="text" name="longitude" id="lon_input"><br>
+			Maximum Distance: <input type="text" name="radius"> meters<br>
+		</fieldset>
+		<button type="submit">Search</button>
+		<button type="reset">Reset</button>
+	</form>
+</p>
+
 <dl>
 	<dt>Description:</dt><dd id="description"></dd><dd id="description2"></dd>
 	<dt>Category:</dt><dd id="category"></dd>
