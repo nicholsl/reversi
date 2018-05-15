@@ -28,3 +28,7 @@ dd {
 	size: 20pt;
 	color: #1B2631
 }
+
+.unimportant {
+	color: grey;
+}

@@ -60,31 +60,31 @@ function initialize() {
 			// Specifically, add in the company_location_description preferentially,
 			// and add in the company_description only if no location description
 			// was provided.
-			var description = "Not Provided";
+			var description = '<td class="unimportant">Not Provided';
 			if (resultsArray[k]["company_location_description"]){
-				description = resultsArray[k]["company_location_description"];
+				description = '<td>' + resultsArray[k]["company_location_description"];
 			} else if (resultsArray[k]["company_description"]) {
-				description = resultsArray[k]["company_description"];
+				description = '<td>' + resultsArray[k]["company_description"];
 			}
 			
-			if (description.length > 25) {
+			if (description.length > 25 && description.indexOf('<td ') != 0) {
 				description = description.slice(0, 25) + "...";
 			}
 			
-			tableRow += '<td>' + description + '</td>';
+			tableRow += description + '</td>';
 			
 			// Add in the Terminal
-			var terminalDescription = "Not Provided";
+			var terminalDescription = '<td class="unimportant">Not Provided';
 			if (resultsArray[k]["terminal"]) {
-				terminalDescription = resultsArray[k]["terminal"];
+				terminalDescription = "<td>" + resultsArray[k]["terminal"];
 			}
-			tableRow += '<td>' + terminalDescription + '</td>';
+			tableRow += terminalDescription + '</td>';
 			
 			// Add in the Distance (only if provided current location)
 			if (locationProvided) {
-				let serviceLat = resultsArray[k]["latitude"];
-				let serviceLon = resultsArray[k]["longitude"];
-				tableRow += '<td>' + getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
+				let serviceLat = resultsArray[k]["lat"];
+				let serviceLon = resultsArray[k]["long"];
+				tableRow += getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
 			}
 			
             tableBody += tableRow + '</tr>';
@@ -109,20 +109,26 @@ function flipPage(change){
 	return currentPage;
 }
 
+function toRadians(degree){
+	return degree * Math.PI / 180;
+}
+
 function getUserDistanceFromCoords(serviceLat, serviceLon) {
+	serviceLat = toRadians(serviceLat);
+	serviceLon = toRadians(serviceLon);
 	if (!serviceLat || !serviceLon) {
-		return "Not Given";
+		return '<td class="unimportant">Unknown';
 	}
-	let userLat = parseFloat(searchParams.get("latitude"));
-	let userLon = parseFloat(searchParams.get("longitude"));
+	let userLat = toRadians(parseFloat(searchParams.get("latitude")));
+	let userLon = toRadians(parseFloat(searchParams.get("longitude")));
 	
 	// Great Circle calculation
 	let angleSeparation = Math.acos(Math.sin(userLat) * Math.sin(serviceLat) + 
 									Math.cos(userLat) * Math.cos(serviceLat) *
-									cos(userLon-serviceLon));
+									Math.cos(Math.abs(userLon-serviceLon)));
 	
 	let distance = 3959*angleSeparation;
-	return distance;
+	return '<td>' + distance.toFixed(2) + ' mi';
 }
 
 
@@ -160,6 +166,12 @@ function getSearchUrl(){
 	Sorts a table based on the column values in column n, but can only sort alphabetically.*/
 function sortTableAlphabetically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+	let itemTag;
+	if (n == 0){
+		itemTag = "A";
+	} else {
+		itemTag = "TD";
+	}
 	table = document.getElementById("resultsTable");
 	switching = true;
 	//Set the sorting direction to ascending:
@@ -177,8 +189,8 @@ function sortTableAlphabetically(n) {
 			shouldSwitch = false;
 			/*Get the two elements you want to compare,
 			one from current row and one from the next:*/
-			x = rows[i].getElementsByTagName("TD")[n];
-			y = rows[i + 1].getElementsByTagName("TD")[n];
+			x = rows[i].getElementsByTagName(itemTag)[n];
+			y = rows[i + 1].getElementsByTagName(itemTag)[n];
 			/*check if the two rows should switch place,
 			based on the direction, asc or desc:*/
 			if (dir == "asc") {
