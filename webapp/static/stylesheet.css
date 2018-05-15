@@ -1,27 +1,121 @@
 /* By Josh Gerstein and Cameron Kline-Sharpe */
 
 body {
+	background-color: white;
 	font-family: arial, sans-serif;
 }
 
+hr { 
+	display: block;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-style: inset;
+	border-width: 1px;
+	border-color: darkgrey
+}
+
+#details {
+	width: 60%;
+	float: left;
+	padding-left: 10px;
+}
+
+#map {
+	width: 30%;
+	float:left;
+	height: 500px;
+}		
+
+#company_name {
+	padding-left: 15px;
+	padding-top: 5px;
+}
+
+#home_button {
+	background-color: #00f0a1;
+	border: none;
+	color: black;
+	width: 100%;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 2px 2px;
+	cursor: pointer;
+}
+
+#home_button:hover {
+background-color: #99ffcc;
+}
+
+.page_button {
+	background-color: #6699ff;
+	border: none;
+	color: black;
+	padding: 10px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 2px 2px;
+	cursor: pointer;
+}
+
+.page_button:hover{
+	background-color: lightblue;
+}
+
+#paging_buttons {
+	text-align: center;
+}
+
+/* Table syle adapted from w3schools https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro */
 table {
-    border-collapse: collapse;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
-th, td {
-    border-bottom: 1px solid #ddd;
-    padding: 15px;
+td, th {
+	border: 1px solid #8c8c8c;
+	text-align: left;
+	padding: 8px;
 }
 
-a {
-  color: #0B86B5;
-  text-decoration: underline;
+th:hover {
+	cursor: pointer;
 }
 
-a:hover {
-  background-color: #D8D8D8;
-  text-decoration: none;
-  cursor: pointer;
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+
+#top_name {
+	padding-left: 20px;
+}
+
+
+.search_area {
+	background-color: #F3F4F9;
+	text-align: leftwards;
+	padding: 5px;
+	padding-left 25px;
+	display: block;
+	background-color: #F3F4F9;
+	text-align: left;
+	padding: 5px;
+}
+
+select {
+	width: 200px;
+	height: 25px;
+}
+
+input {
+	width: 196px;
+	height: 20px;
+	padding: 0px;
 }
 
 dd {

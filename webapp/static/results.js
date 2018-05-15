@@ -6,20 +6,16 @@
 	the web application (books_website.py) and the API (books_api.py)
 	will be running on the same host but on different ports.
 	
-	TO DO:
-		Add table headings
-		Impliment 3 great circle calc functions
-		Impliment clean_url()
-	
 */
 
 var searchParams = new URLSearchParams(window.location.search.substring(1));
 var resultsTable = document.getElementById("resultsTable");
-var currentPage = flipPage(0);
+var locationProvided = searchParams.get("latitude") && searchParams.get("longitude");
+var currentPage = 0;
+
 initialize();
 
 function initialize() {
-	let locationProvided = searchParams.get("latitude") && searchParams.get("longitude");
 	
 	// Send the request to the services API /services endpoint
     fetch(getAPISearchUrl(), {method: 'get'})
@@ -30,67 +26,74 @@ function initialize() {
 
     // Once you have your list of author dictionaries, use it to build
     // an HTML table displaying the author names and lifespan.
-    .then(function(resultsArray) {
-		// Check to make sure the current page number isn't too high
-		// The too low case is handled in flipPage().
-		if ((currentPage * 25) - 1 > resultsArray.length) {
-			// TODO: instead of -= 1, should set it to last page.
-			currentPage -= 1;
+    .then(fillTable)
+	.then(sortTableAlphabetically);
+	
+}
+
+function fillTable(resultsArray) {
+	// Check to make sure the current page number isn't too high
+	// The too low case is handled in flipPage().
+	if ((currentPage * 25) - 1 > resultsArray.length) {
+		// TODO: instead of -= 1, should set it to last page.
+		currentPage -= 1;
+	}
+	
+	// Build the table body.
+	let tableBody = '';
+	// Add in table headings
+	tableBody += "<tr>"
+	tableBody += "<th onclick='sortTableAlphabetically(0)' id='columnheading0'>Company Name</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(1)' id='columnheading1'>Description</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(2)' id='columnheading2'>Terminal</th>"
+	if (locationProvided){
+		tableBody += "<th onclick='sortTableNumerically(3)' id='columnheading3'>Distance</th>"
+	}
+	tableBody += "</tr>"
+	for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
+		let tableRow = '<tr>';
+
+		// Add in the hypertext name of the company
+		tableRow += '<td><a href="/results/' + resultsArray[k]["id"] + '">';
+		tableRow += resultsArray[k]["company_name"] + '</a></td>';
+		
+		// Add in the first 25 characters of the company's description.
+		// Specifically, add in the company_location_description preferentially,
+		// and add in the company_description only if no location description
+		// was provided.
+		var description = '<td class="unimportant">Not Provided';
+		if (resultsArray[k]["company_location_description"]){
+			description = '<td>' + resultsArray[k]["company_location_description"];
+		} else if (resultsArray[k]["company_description"]) {
+			description = '<td>' + resultsArray[k]["company_description"];
 		}
 		
-        // Build the table body.
-        let tableBody = '';
-		// Add in table headings
-		tableBody += "<tr>"
-		tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
-		tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
-		tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
-		if (locationProvided){
-			tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+		if (description.length > 25 && description.indexOf('<td ') != 0) {
+			description = description.slice(0, 25) + "...";
 		}
-		tableBody += "</tr>"
-        for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
-            let tableRow = '<tr>';
-
-			// Add in the hypertext name of the company
-            tableRow += '<td><a href="/results/' + resultsArray[k]["id"] + '">';
-			tableRow += resultsArray[k]["company_name"] + '</a></td>';
-			
-			// Add in the first 25 characters of the company's description.
-			// Specifically, add in the company_location_description preferentially,
-			// and add in the company_description only if no location description
-			// was provided.
-			var description = '<td class="unimportant">Not Provided';
-			if (resultsArray[k]["company_location_description"]){
-				description = '<td>' + resultsArray[k]["company_location_description"];
-			} else if (resultsArray[k]["company_description"]) {
-				description = '<td>' + resultsArray[k]["company_description"];
-			}
-			
-			if (description.length > 25 && description.indexOf('<td ') != 0) {
-				description = description.slice(0, 25) + "...";
-			}
-			
-			tableRow += description + '</td>';
-			
-			// Add in the Terminal
-			var terminalDescription = '<td class="unimportant">Not Provided';
-			if (resultsArray[k]["terminal"]) {
-				terminalDescription = "<td>" + resultsArray[k]["terminal"];
-			}
-			tableRow += terminalDescription + '</td>';
-			
-			// Add in the Distance (only if provided current location)
-			if (locationProvided) {
-				let serviceLat = resultsArray[k]["lat"];
-				let serviceLon = resultsArray[k]["long"];
-				tableRow += getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
-			}
-			
-            tableBody += tableRow + '</tr>';
-        }
-		resultsTable.innerHTML = tableBody;
-	})
+		
+		tableRow += description + '</td>';
+		
+		// Add in the Terminal
+		var terminalDescription = '<td class="unimportant">Not Provided';
+		if (resultsArray[k]["terminal"]) {
+			terminalDescription = "<td>" + resultsArray[k]["terminal"];
+		}
+		tableRow += terminalDescription + '</td>';
+		
+		// Add in the Distance (only if provided current location)
+		if (locationProvided) {
+			let serviceLat = resultsArray[k]["lat"];
+			let serviceLon = resultsArray[k]["long"];
+			tableRow += getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
+		}
+		
+		tableBody += tableRow + '</tr>';
+	}
+	resultsTable.innerHTML = tableBody;
+	/* Extremely hacky solution, returns zero so that sortTableAlphabetically gets called with argument 0
+	after this function finishes in initialize() */
+	return 0;
 }
 
 function flipPage(change){
@@ -106,7 +109,7 @@ function flipPage(change){
 	if (currentPage < 0) {
 		currentPage = 0;
 	}
-	return currentPage;
+	fillTable(currentPage);
 }
 
 function toRadians(degree){
@@ -154,15 +157,8 @@ function getAPIBaseURL() {
     return APIBaseURL;
 }
 
-function getSearchUrl(){
-	function getSearchUrl() {
-	let current_url = window.location.href;
-	let url_split = current_url.split("/");
-	var baseUrl = url_split[0] + "/";
-	return baseUrl;
-	}
-}
-/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+/* 	Code below adapted from w3schools code at 
+	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort alphabetically.*/
 function sortTableAlphabetically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -223,9 +219,24 @@ function sortTableAlphabetically(n) {
 			}
 		}
 	}
+	
+	// Mark table so that person using webapp knows what the table is organized by
+	let indicator = " &darr;"
+	if (dir == "desc") {
+		indicator = " &uarr;"
+	}
+	let sortingColumn = "columnheading" + n.toString();
+	document.getElementById("columnheading0").innerHTML = "Company Name";
+	document.getElementById("columnheading1").innerHTML = "Description";
+	document.getElementById("columnheading2").innerHTML = "Terminal";
+	if (locationProvided){
+		document.getElementById("columnheading3").innerHTML = "Distance";
+	}
+	document.getElementById(sortingColumn).innerHTML += indicator;
 }
 
-/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+/* 	Code below adapted from w3schools code at 
+	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort numerically.*/
 function sortTableNumerically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
@@ -276,4 +287,21 @@ function sortTableNumerically(n) {
 			}
 		}
 	}
+	
+	// Mark table so that person using webapp knows what the table is organized by
+	let indicator = " &darr;"
+	if (dir == "desc") {
+		indicator = " &uarr;"
+		// if the sorting direction is down, use an up arrow instead of a down arrow.
+	}
+	let sortingColumn = "columnheading" + n.toString();
+	// clear all non-indicating columns to original form
+	document.getElementById("columnheading0").innerHTML = "Company Name";
+	document.getElementById("columnheading1").innerHTML = "Description";
+	document.getElementById("columnheading2").innerHTML = "Terminal";
+	if (locationProvided){
+		document.getElementById("columnheading3").innerHTML = "Distance";
+	}
+	// add indicator to the correct column heading
+	document.getElementById(sortingColumn).innerHTML += indicator;
 }
