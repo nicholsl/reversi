@@ -30,6 +30,8 @@ function initialize() {
     // Once you have your list of author dictionaries, use it to build
     // an HTML table displaying the author names and lifespan.
     .then(resultsArray(0))
+	
+	.then(sortTableAlphabetically(0))
 }
 
 function(resultsArray(currentPage)) {
@@ -44,11 +46,11 @@ function(resultsArray(currentPage)) {
 	let tableBody = '';
 	// Add in table headings
 	tableBody += "<tr>"
-	tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
-	tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
-	tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(0)' id='columnheading0'>Company Name</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(1)' id='columnheading1'>Description</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(2)' id='columnheading2'>Terminal</th>"
 	if (locationProvided){
-		tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+		tableBody += "<th onclick='sortTableNumerically(3)' id='columnheading3'>Distance</th>"
 	}
 	tableBody += "</tr>"
 	for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
@@ -149,18 +151,17 @@ function getAPIBaseURL() {
     return APIBaseURL;
 }
 
-function getSearchUrl(){
-	function getSearchUrl() {
-	let current_url = window.location.href;
-	let url_split = current_url.split("/");
-	var baseUrl = url_split[0] + "/";
-	return baseUrl;
-	}
-}
-/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+/* 	Code below adapted from w3schools code at 
+	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort alphabetically.*/
 function sortTableAlphabetically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+	let itemTag;
+	if (n == 0){
+		itemTag = "A";
+	} else {
+		itemTag = "TD";
+	}
 	table = document.getElementById("resultsTable");
 	switching = true;
 	//Set the sorting direction to ascending:
@@ -178,8 +179,8 @@ function sortTableAlphabetically(n) {
 			shouldSwitch = false;
 			/*Get the two elements you want to compare,
 			one from current row and one from the next:*/
-			x = rows[i].getElementsByTagName("TD")[n];
-			y = rows[i + 1].getElementsByTagName("TD")[n];
+			x = rows[i].getElementsByTagName(itemTag)[n];
+			y = rows[i + 1].getElementsByTagName(itemTag)[n];
 			/*check if the two rows should switch place,
 			based on the direction, asc or desc:*/
 			if (dir == "asc") {
@@ -212,9 +213,24 @@ function sortTableAlphabetically(n) {
 			}
 		}
 	}
+	
+	// Mark table so that person using webapp knows what the table is organized by
+	let indicator = " &darr;"
+	if (dir == "desc") {
+		indicator = " &uarr;"
+	}
+	let sortingColumn = "columnheading" + n.toString();
+	document.getElementById("columnheading0").innerHTML = "Company Name";
+	document.getElementById("columnheading1").innerHTML = "Description";
+	document.getElementById("columnheading2").innerHTML = "Terminal";
+	if (locationProvided){
+		document.getElementById("columnheading3").innerHTML = "Distance";
+	}
+	document.getElementById(sortingColumn).innerHTML += indicator;
 }
 
-/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+/* 	Code below adapted from w3schools code at 
+	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort numerically.*/
 function sortTableNumerically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
@@ -265,4 +281,21 @@ function sortTableNumerically(n) {
 			}
 		}
 	}
+	
+	// Mark table so that person using webapp knows what the table is organized by
+	let indicator = " &darr;"
+	if (dir == "desc") {
+		indicator = " &uarr;"
+		// if the sorting direction is down, use an up arrow instead of a down arrow.
+	}
+	let sortingColumn = "columnheading" + n.toString();
+	// clear all non-indicating columns to original form
+	document.getElementById("columnheading0").innerHTML = "Company Name";
+	document.getElementById("columnheading1").innerHTML = "Description";
+	document.getElementById("columnheading2").innerHTML = "Terminal";
+	if (locationProvided){
+		document.getElementById("columnheading3").innerHTML = "Distance";
+	}
+	// add indicator to the correct column heading
+	document.getElementById(sortingColumn).innerHTML += indicator;
 }
