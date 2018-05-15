@@ -112,8 +112,14 @@ function getUserDistanceFromCoords(serviceLat, serviceLon) {
 	}
 	let userLat = parseFloat(searchParams.get("latitude"));
 	let userLon = parseFloat(searchParams.get("longitude"));
-	// TODO: impliment great circle calculation and replace next line
-	return 100;
+	
+	// Great Circle calculation
+	let angleSeparation = Math.acos(Math.sin(userLat) * Math.sin(serviceLat) + 
+									Math.cos(userLat) * Math.cos(serviceLat) *
+									cos(userLon-serviceLon));
+	
+	let distance = 3959*angleSeparation;
+	return distance;
 }
 
 
@@ -137,4 +143,13 @@ function getAPISearchUrl(){
 function getAPIBaseURL() {
     var APIBaseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;
     return APIBaseURL;
+}
+
+function getSearchUrl(){
+	function getSearchUrl() {
+	let current_url = window.location.href;
+	let url_split = current_url.split("/");
+	var baseUrl = url_split[0] + "/";
+	return baseUrl;
+	}
 }

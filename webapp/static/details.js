@@ -113,3 +113,12 @@ function generateMap(lat, lon, markerTitle){
 	var marker = new google.maps.Marker(markerOptions);
 }
 
+
+function getSearchUrl(){
+	function getSearchUrl() {
+	let current_url = window.location.href;
+	let url_split = current_url.split("/");
+	var baseUrl = url_split[0] + "/";
+	return baseUrl;
+	}
+}

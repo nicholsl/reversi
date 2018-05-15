@@ -7,54 +7,82 @@
     <script type="text/javascript" src="{{ url_for('static', filename='results.js') }}" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>Search Results</title>
+	<style>
+		.page_button {
+			background-color: #6699ff;
+			border: none;
+			color: black;
+			padding: 10px 16px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 2px 2px;
+			cursor: pointer;
+		}
+		
+		.page_button:hover{
+			background-color: lightblue;
+		}
+		
+		#home_button {
+			background-color: #00f0a1;
+			border: none;
+			color: black;
+			padding: 10px 16px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 2px 2px;
+			cursor: pointer;
+		}
+		
+		#home_button:hover {
+			background-color: #99ffcc;
+		}
+		
+		#paging_buttons {
+			text-align: center;
+		}
+		
+		/* Table syle adapted from w3schools https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro */
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		td, th {
+			border: 1px solid #8c8c8c;
+			text-align: left;
+			padding: 8px;
+		}
+
+		tr:nth-child(even) {
+			background-color: #dddddd;
+		}
+		
+		#top_name {
+			padding-left: 20px;
+		}
+	</style>
+	
 </head>
 
 <body>
-	<p id="Search Header">
-	<form action="/results" method="get">
-		Service Name: <input type="text" name="search_string"><br>
-		Terminal: <select name="terminal">
-			<option value="" selected>--</option>
-			<option value="Terminal 1">Terminal 1</option>
-			<option value="Terminal 2">Terminal 2</option>
-			<option value="Terminal 3">Terminal 3</option>
-			<option value="Terminal 4">Terminal 4</option>
-			<option value="Terminal 5">Terminal 5</option>
-			<option value="Terminal 6">Terminal 6</option>
-			<option value="Terminal 7">Terminal 7</option>
-			<option value="Terminal 8">Terminal 8</option>
-			<option value="TBIT">TBIT</option>
-		</select>
-		     Service Type: <select name="service_type">
-			<option value="" selected>--</option>
-			<option value="SPAS">Spas</option>
-			<option value="FOOD AND BEVERAGE FACILITIES">Food And Beverage Facilities</option>
-			<option value="GIFT SHOPS AND NEWS STANDS">Gift Shops And News Stands</option>
-			<option value="CURRENCY EXCHANGE">Currency Exchange</option>
-			<option value="DUTY FREE SHOPS">Duty Free Shops</option>
-			<option value="AIR CARRIER">Air Carrier</option>
-			<option value="MISCELLANEOUS">Miscellaneous</option>
-			<option value="MEDICAL FACILITIES">Medical Facilities</option>
-			<option value="CONTRACT SECURITY SERVICES">Contract Security Services</option>
-			<option value="TRAVELERS ASSISTANCE">Travelers Assistance</option>
-			<option value="CUSTODIAL SERVICES">Custodial Services</option>
-			<option value="GOVERNMENT AGENCIES">Government Agencies</option>
-		</select><br>
-		<fieldset><legend>     GPS Information</legend>
-			Latitude: <input type="text" name="latitude" id="lat_input">
-			Longitude: <input type="text" name="longitude" id="lon_input">
-			Maximum Distance: <input type="text" name="radius"> meters<br>
-		</fieldset>
-		<button type="submit">Search</button>
-		<button type="reset">Reset</button>
-	</form>
-	</p>
+	
+	<button onclick="location.href = getSearchUrl()" id="home_button" type="button" >Return To Search Page</button>
+	
+	<h2 id="top_name">Search Results: </h2>
 
-	<p><table id="results_table"></table></p>
-	<p>
-	<button type="button" id="Next Button" onclick="flipPage(1))">Next</button>
-	<button type="button" id="Previous Button" onclick="flipPage(-1)">Previous</button>
-	</p>
+	<p><table id="results_table"><tr><tr></tr></tr></table></p>
+	
+	<div id="paging_buttons">
+		<button type="button" id="previousButton" onclick="flipPage(-1)" class="page_button">Previous</button>
+		<button type="button" id="nextButton" onclick="flipPage(1))" class="page_button">  Next  </button>
+	</div>
+	
 </body>
 
 </html>

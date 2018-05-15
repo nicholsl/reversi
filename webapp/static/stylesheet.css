@@ -1,1 +1,26 @@
 /* By Josh Gerstein and Cameron Kline-Sharpe */
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+}
+
+a {
+  color: #0B86B5;
+  text-decoration: underline;
+}
+
+a:hover {
+  background-color: #D8D8D8;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+dd {
+	size: 20pt;
+	color: #1B2631
+}
