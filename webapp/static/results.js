@@ -15,7 +15,6 @@
 
 var searchParams = new URLSearchParams(window.location.search.substring(1));
 var resultsTable = document.getElementById("resultsTable");
-var currentPage = flipPage(0);
 initialize();
 
 function initialize() {
@@ -30,68 +29,70 @@ function initialize() {
 
     // Once you have your list of author dictionaries, use it to build
     // an HTML table displaying the author names and lifespan.
-    .then(function(resultsArray) {
-		// Check to make sure the current page number isn't too high
-		// The too low case is handled in flipPage().
-		if ((currentPage * 25) - 1 > resultsArray.length) {
-			// TODO: instead of -= 1, should set it to last page.
-			currentPage -= 1;
+    .then(resultsArray(0))
+}
+
+function(resultsArray(currentPage)) {
+	// Check to make sure the current page number isn't too high
+	// The too low case is handled in flipPage().
+	if ((currentPage * 25) - 1 > resultsArray.length) {
+		// TODO: instead of -= 1, should set it to last page.
+		currentPage -= 1;
+	}
+	
+	// Build the table body.
+	let tableBody = '';
+	// Add in table headings
+	tableBody += "<tr>"
+	tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
+	tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
+	if (locationProvided){
+		tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+	}
+	tableBody += "</tr>"
+	for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
+		let tableRow = '<tr>';
+
+		// Add in the hypertext name of the company
+		tableRow += '<td><a href="/results/' + resultsArray[k]["id"] + '">';
+		tableRow += resultsArray[k]["company_name"] + '</a></td>';
+		
+		// Add in the first 25 characters of the company's description.
+		// Specifically, add in the company_location_description preferentially,
+		// and add in the company_description only if no location description
+		// was provided.
+		var description = "Not Provided";
+		if (resultsArray[k]["company_location_description"]){
+			description = resultsArray[k]["company_location_description"];
+		} else if (resultsArray[k]["company_description"]) {
+			description = resultsArray[k]["company_description"];
 		}
 		
-        // Build the table body.
-        let tableBody = '';
-		// Add in table headings
-		tableBody += "<tr>"
-		tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
-		tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
-		tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
-		if (locationProvided){
-			tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+		if (description.length > 25) {
+			description = description.slice(0, 25) + "...";
 		}
-		tableBody += "</tr>"
-        for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
-            let tableRow = '<tr>';
-
-			// Add in the hypertext name of the company
-            tableRow += '<td><a href="/results/' + resultsArray[k]["id"] + '">';
-			tableRow += resultsArray[k]["company_name"] + '</a></td>';
-			
-			// Add in the first 25 characters of the company's description.
-			// Specifically, add in the company_location_description preferentially,
-			// and add in the company_description only if no location description
-			// was provided.
-			var description = "Not Provided";
-			if (resultsArray[k]["company_location_description"]){
-				description = resultsArray[k]["company_location_description"];
-			} else if (resultsArray[k]["company_description"]) {
-				description = resultsArray[k]["company_description"];
-			}
-			
-			if (description.length > 25) {
-				description = description.slice(0, 25) + "...";
-			}
-			
-			tableRow += '<td>' + description + '</td>';
-			
-			// Add in the Terminal
-			var terminalDescription = "Not Provided";
-			if (resultsArray[k]["terminal"]) {
-				terminalDescription = resultsArray[k]["terminal"];
-			}
-			tableRow += '<td>' + terminalDescription + '</td>';
-			
-			// Add in the Distance (only if provided current location)
-			if (locationProvided) {
-				let serviceLat = resultsArray[k]["latitude"];
-				let serviceLon = resultsArray[k]["longitude"];
-				tableRow += '<td>' + getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
-			}
-			
-            tableBody += tableRow + '</tr>';
-        }
-		resultsTable.innerHTML = tableBody;
-	})
-}
+		
+		tableRow += '<td>' + description + '</td>';
+		
+		// Add in the Terminal
+		var terminalDescription = "Not Provided";
+		if (resultsArray[k]["terminal"]) {
+			terminalDescription = resultsArray[k]["terminal"];
+		}
+		tableRow += '<td>' + terminalDescription + '</td>';
+		
+		// Add in the Distance (only if provided current location)
+		if (locationProvided) {
+			let serviceLat = resultsArray[k]["latitude"];
+			let serviceLon = resultsArray[k]["longitude"];
+			tableRow += '<td>' + getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
+		}
+		
+		tableBody += tableRow + '</tr>';
+	}
+	resultsTable.innerHTML = tableBody;
+	}
 
 function flipPage(change){
 	let currentPage = searchParams.get("page");
@@ -106,7 +107,7 @@ function flipPage(change){
 	if (currentPage < 0) {
 		currentPage = 0;
 	}
-	return currentPage;
+	resultsArray(currentPage);
 }
 
 function getUserDistanceFromCoords(serviceLat, serviceLon) {
