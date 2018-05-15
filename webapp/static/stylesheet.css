@@ -1,5 +1,9 @@
 /* By Josh Gerstein and Cameron Kline-Sharpe */
 
+body {
+	font-family: arial, sans-serif;
+}
+
 table {
     border-collapse: collapse;
 }

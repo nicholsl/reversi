@@ -39,8 +39,3 @@ function showError(error) {
             break;
     }
 }
-
-function trialfunct(){
-	return omg;
-}
-

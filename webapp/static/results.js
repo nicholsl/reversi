@@ -14,7 +14,7 @@
 */
 
 var searchParams = new URLSearchParams(window.location.search.substring(1));
-var resultsTable = document.getElementById("results_table");
+var resultsTable = document.getElementById("resultsTable");
 var currentPage = flipPage(0);
 initialize();
 
@@ -33,7 +33,8 @@ function initialize() {
     .then(function(resultsArray) {
 		// Check to make sure the current page number isn't too high
 		// The too low case is handled in flipPage().
-		if (((currentPage + 1)*25 - 1) > resultsArray.length) {
+		if ((currentPage * 25) - 1 > resultsArray.length) {
+			// TODO: instead of -= 1, should set it to last page.
 			currentPage -= 1;
 		}
 		
@@ -44,7 +45,9 @@ function initialize() {
 		tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
 		tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
 		tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
-		tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+		if (locationProvided){
+			tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
+		}
 		tableBody += "</tr>"
         for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
             let tableRow = '<tr>';
