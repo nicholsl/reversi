@@ -40,3 +40,7 @@ function showError(error) {
     }
 }
 
+function trialfunct(){
+	return omg;
+}
+

@@ -29,15 +29,14 @@
 			background-color: #00f0a1;
 			border: none;
 			color: black;
-			padding: 10px 16px;
+			width: 100%;
 			text-align: center;
 			text-decoration: none;
 			display: inline-block;
-			font-size: 16px;
 			margin: 2px 2px;
 			cursor: pointer;
 		}
-		
+			
 		#home_button:hover {
 			background-color: #99ffcc;
 		}
@@ -58,6 +57,10 @@
 			text-align: left;
 			padding: 8px;
 		}
+		
+		th:hover {
+			cursor: pointer;
+		}
 
 		tr:nth-child(even) {
 			background-color: #dddddd;
@@ -72,15 +75,16 @@
 
 <body>
 	
-	<button onclick="location.href = getSearchUrl()" id="home_button" type="button" >Return To Search Page</button>
+	<button onclick="location.href='#'" id="home_button" type="button"><h1>What's in LAX?</h1></button>
 	
 	<h2 id="top_name">Search Results: </h2>
+	
+	<p><table id="resultsTable"></tr></table></p>
 
-	<p><table id="results_table"><tr><tr></tr></tr></table></p>
 	
 	<div id="paging_buttons">
 		<button type="button" id="previousButton" onclick="flipPage(-1)" class="page_button">Previous</button>
-		<button type="button" id="nextButton" onclick="flipPage(1))" class="page_button">  Next  </button>
+		<button type="button" id="nextButton" onclick="flipPage(1)" class="page_button">  Next  </button>
 	</div>
 	
 </body>

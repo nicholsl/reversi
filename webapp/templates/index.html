@@ -7,25 +7,49 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>Search LAX</title>
 	<style>
-	
-	.header {
-		background-color: #F3F4F9;
-		text-align: left;
-		padding: 5px;
-		text-align: center;
-	}
-	
-	.search_area {
-		background-color: #F3F4F9;
-		text-align: left;
-		padding: 5px;
-	}
+		.search_area {
+			background-color: #F3F4F9;
+			text-align: leftwards;
+			padding: 5px;
+			padding-left 25px;
+			display: block;
+			background-color: #F3F4F9;
+			text-align: left;
+			padding: 5px;
+		}
+		
+		select {
+			width: 200px;
+			height: 25px;
+		}
+		
+		input {
+			width: 200px;
+			height: 20px;
+		}
+		
+		#home_button {
+				background-color: #00f0a1;
+				border: none;
+				color: black;
+				width: 100%;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				margin: 2px 2px;
+				cursor: pointer;
+			}
+			
+		#home_button:hover {
+			background-color: #99ffcc;
+		}
 	
 	</style>
 </head>
 
 <body>
-    <div class="header"><h1>What's In LAX?</h1></div>
+	<button onclick="location.href='#'" id="home_button" type="button"><h1>What's in LAX?</h1></button>
+	
 	<p id="introParagraph">
 		Welcome to the searchable database of availiable business services within the LAX airport. 
 		You can search for places to eat, currency exchange stations, information centers, and more.
@@ -36,7 +60,7 @@
 		<h2>Search:</h2>
 		
 		<form action="/results" method="get">
-			Service Name: <input type="text" name="search_string"><br>
+			Service Name: <input type="text" name="search_string">
 			Terminal: <select name="terminal">
 				<option value="" selected>--</option>
 				<option value="Terminal 1">Terminal 1</option>
@@ -48,7 +72,7 @@
 				<option value="Terminal 7">Terminal 7</option>
 				<option value="Terminal 8">Terminal 8</option>
 				<option value="TBIT">TBIT</option>
-			</select><br>
+			</select>
 			Service Type: <select name="service_type">
 				<option value="" selected>--</option>
 				<option value="SPAS">Spas</option>
@@ -63,13 +87,13 @@
 				<option value="TRAVELERS ASSISTANCE">Travelers Assistance</option>
 				<option value="CUSTODIAL SERVICES">Custodial Services</option>
 				<option value="GOVERNMENT AGENCIES">Government Agencies</option>
-			</select><br>
+			</select><br><br>
 			<button type="button" onclick="getLocation()">Use my location</button><br>
 			<fieldset><legend>GPS Information</legend>
 				Latitude: <input type="text" name="latitude" id="lat_input">
 				Longitude: <input type="text" name="longitude" id="lon_input"><br>
 				Maximum Distance: <input type="text" name="radius"> meters<br>
-			</fieldset>
+			</fieldset><br><br>
 			<button type="submit">Search</button>
 			<button type="reset">Reset</button>
 		</form>

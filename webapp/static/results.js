@@ -41,10 +41,10 @@ function initialize() {
         let tableBody = '';
 		// Add in table headings
 		tableBody += "<tr>"
-		tableBody += "<th>Company Name</th>"
-		tableBody += "<th>Description</th>"
-		tableBody += "<th>Terminal</th>"
-		tableBody += "<th>Distance</th>"
+		tableBody += "<th onclick='sortTableAlphabetically(0)'>Company Name</th>"
+		tableBody += "<th onclick='sortTableAlphabetically(1)'>Description</th>"
+		tableBody += "<th onclick='sortTableAlphabetically(2)'>Terminal</th>"
+		tableBody += "<th onclick='sortTableNumerically(3)'>Distance</th>"
 		tableBody += "</tr>"
         for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
             let tableRow = '<tr>';
@@ -151,5 +151,114 @@ function getSearchUrl(){
 	let url_split = current_url.split("/");
 	var baseUrl = url_split[0] + "/";
 	return baseUrl;
+	}
+}
+/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+	Sorts a table based on the column values in column n, but can only sort alphabetically.*/
+function sortTableAlphabetically(n) {
+	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+	table = document.getElementById("resultsTable");
+	switching = true;
+	//Set the sorting direction to ascending:
+	dir = "asc"; 
+	/*Make a loop that will continue until
+	no switching has been done:*/
+	while (switching) {
+		//start by saying: no switching is done:
+		switching = false;
+		rows = table.getElementsByTagName("TR");
+		/*Loop through all table rows (except the
+		first, which contains table headers):*/
+		for (i = 1; i < (rows.length - 1); i++) {
+			//start by saying there should be no switching:
+			shouldSwitch = false;
+			/*Get the two elements you want to compare,
+			one from current row and one from the next:*/
+			x = rows[i].getElementsByTagName("TD")[n];
+			y = rows[i + 1].getElementsByTagName("TD")[n];
+			/*check if the two rows should switch place,
+			based on the direction, asc or desc:*/
+			if (dir == "asc") {
+				if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+					//if so, mark as a switch and break the loop:
+					shouldSwitch= true;
+					break;
+				}
+			} else if (dir == "desc") {
+				if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+					//if so, mark as a switch and break the loop:
+					shouldSwitch = true;
+					break;
+				}
+			}
+		}
+		if (shouldSwitch) {
+			/*If a switch has been marked, make the switch
+			and mark that a switch has been done:*/
+			rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			switching = true;
+			//Each time a switch is done, increase this count by 1:
+			switchcount ++;      
+		} else {
+			/*If no switching has been done AND the direction is "asc",
+			set the direction to "desc" and run the while loop again.*/
+			if (switchcount == 0 && dir == "asc") {
+				dir = "desc";
+				switching = true;
+			}
+		}
+	}
+}
+
+/* Code below adapted from w3schools code at https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
+	Sorts a table based on the column values in column n, but can only sort numerically.*/
+function sortTableNumerically(n) {
+	var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
+	table = document.getElementById("myTable");
+	switching = true;
+	/*Make a loop that will continue until
+	no switching has been done:*/
+	while (switching) {
+		//start by saying: no switching is done:
+		switching = false;
+		rows = table.getElementsByTagName("TR");
+		/*Loop through all table rows (except the
+		first, which contains table headers):*/
+		for (i = 1; i < (rows.length - 1); i++) {
+			//start by saying there should be no switching:
+			shouldSwitch = false;
+			/*Get the two elements you want to compare,
+			one from current row and one from the next:*/
+			x = rows[i].getElementsByTagName("TD")[n];
+			y = rows[i + 1].getElementsByTagName("TD")[n];
+			//check if the two rows should switch place:
+			if (dir == "asc") {
+				if (Number(x.innerHTML) > Number(y.innerHTML)) {
+					//if so, mark as a switch and break the loop:
+					shouldSwitch= true;
+					break;
+				}
+			} else if (dir == "desc") {
+				if (Number(x.innerHTML) < Number(y.innerHTML)) {
+					//if so, mark as a switch and break the loop:
+					shouldSwitch = true;
+					break;
+				}
+			}
+		}
+		if (shouldSwitch) {
+			/*If a switch has been marked, make the switch
+			and mark that a switch has been done:*/
+			rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			switching = true;
+			switchcount++;
+		} else {
+			/*If no switching has been done AND the direction is "asc",
+			set the direction to "desc" and run the while loop again.*/
+			if (switchcount == 0 && dir == "asc") {
+				dir = "desc";
+				switching = true;
+			}
+		}
 	}
 }
