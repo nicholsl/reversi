@@ -46,7 +46,7 @@ hr {
 }
 
 #home_button:hover {
-background-color: #99ffcc;
+	background-color: #99ffcc;
 }
 
 .page_button {
@@ -64,6 +64,10 @@ background-color: #99ffcc;
 
 .page_button:hover{
 	background-color: lightblue;
+}
+
+.page_button.current{
+	border: 2px solid red;
 }
 
 #paging_buttons {
@@ -95,16 +99,24 @@ tr:nth-child(even) {
 	padding-left: 20px;
 }
 
+.description {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 300px;
+	overflow: hidden;
+}
 
 .search_area {
 	background-color: #F3F4F9;
-	text-align: leftwards;
 	padding: 5px;
 	padding-left 25px;
 	display: block;
 	background-color: #F3F4F9;
 	text-align: left;
-	padding: 5px;
+}
+
+#location_button{
+	margin-bottom: 5px;
 }
 
 select {

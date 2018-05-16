@@ -13,7 +13,7 @@
 	
 	<button onclick="location.href='/'" id="home_button" type="button"><h1>Return to Main Page</h1></button>
 	
-	<h2 id="top_name">Search Results: </h2>
+	<h2 id="top_name"></h2>
 	<p class="centered"> To sort table, click on column headers.</p>
 
 	<p><table id="resultsTable"></table></p>
@@ -21,9 +21,8 @@
 	<p id="bugfixer"><p>
 
 	<div id="paging_buttons">
-		<button type="button" id="previousButton" onclick="flipPage(-1)" class="page_button">Previous</button>
-		<button id="CurrentPageButton" class="page_button" onclick="flipPage(0)">0</button>
-		<button type="button" id="nextButton" onclick="flipPage(1)" class="page_button">  Next  </button>
+		<button type="button" id="previous_button" onclick="goToPage(page-1)" class="page_button">Previous</button>
+		<button type="button" id="next_button" onclick="goToPage(page+1)" class="page_button">Next</button>
 	</div>
 	
 </body>

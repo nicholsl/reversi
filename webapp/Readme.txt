@@ -15,6 +15,12 @@ This webapp provides the people who use it with the ability to search for
 services (restaurants, gift shops, currency exchange, etc.) which are 
 available in the LAX airport.
 
+Note: The website's calculation for distance between points is slightly more accurate
+than our API's, which causes some apparent contradictions. For example, a search for
+services within 300 meters of (33.9416 N, 118.4085 W) returns some services whose 
+listed distances are 300-320 meters.
+
+
 Overview:
 	The user of the webapp will arrive at the front page.
 	That person will use the tools on the front page to search for a service (food, shopping, etc.) in LAX.

@@ -11,7 +11,6 @@
 var searchParams = new URLSearchParams(window.location.search.substring(1));
 var resultsTable = document.getElementById("resultsTable");
 var locationProvided = searchParams.get("latitude") && searchParams.get("longitude");
-var thisPage = 0;
 
 initialize();
 
@@ -27,20 +26,33 @@ function initialize() {
     // an HTML table displaying information about the services
     .then(fillTable)
 	.then(sortTableAlphabetically);
-	
 }
 
 function fillTable(resultsArray) {
-	// Check to make sure the current page number isn't too high
-	// The too low case is handled in flipPage().
-	if ((thisPage * 25) - 1 > resultsArray.length) {
-		thisPage -= 1;
-	}
-	//set the internal variable to the global variable
-	let currentPage = thisPage;
+	/* Fill out the table with appropriate elements of resultsArray */
 	
-	//set the value on the current page button
-	document.getElementById("CurrentPageButton").innerHTML = " " + currentPage.toString() + " ";
+	page = searchParams.get("page");
+	// If no page parseFloat given, use page 1.
+	if (page === null || page < 1) {
+		page = 1;
+	} else {
+		page = parseInt(page);
+	}
+	let groups = groupSequentially(resultsArray, 20);
+	let numPages = groups.length;
+	
+	// If given page parseFloat is past end of results, set it to last page.
+	if (page > numPages) {
+		page = numPages;
+	}	
+	var curPageServices = groups[page - 1];
+	updateHeader(resultsArray.length, (page - 1) * 20 + 1, curPageServices.length);
+	
+	pageButtonsDiv = document.getElementById("paging_buttons");
+	nextPageButton = document.getElementById("next_button");
+	for (var i = 1; i <= numPages; i++) {
+		pageButtonsDiv.insertBefore(newPageButton(i), nextPageButton);
+	}
 
 	// Build the table body.
 	let tableBody = '';
@@ -53,42 +65,42 @@ function fillTable(resultsArray) {
 		tableBody += "<th onclick='sortTableNumerically(3)' id='columnheading3'>Distance</th>"
 	}
 	tableBody += "</tr>"
-	for (var k = 25 * currentPage; k < 25 * (currentPage + 1) -1 && k < resultsArray.length; k++) {
+	for (var k = 0; k < curPageServices.length; k++) {
 		let tableRow = '<tr>';
 
 		// Add in the hypertext name of the company
-		tableRow += '<td><a href="/results/' + resultsArray[k]["id"] + '">';
-		tableRow += resultsArray[k]["company_name"] + '</a></td>';
+		tableRow += '<td><a href="/results/' + curPageServices[k]["id"] + '">';
+		tableRow += curPageServices[k]["company_name"] + '</a></td>';
 		
-		// Add in the first 25 characters of the company's description.
+		// Add in the first 20 characters of the company's description.
 		// Specifically, add in the company_location_description preferentially,
 		// and add in the company_description only if no location description
 		// was provided.
-		var description = '<td class="unimportant">Not Provided';
-		if (resultsArray[k]["company_location_description"]){
-			description = '<td>' + resultsArray[k]["company_location_description"];
-		} else if (resultsArray[k]["company_description"]) {
-			description = '<td>' + resultsArray[k]["company_description"];
+		var description = '<td class="unimportant description">Not Provided';
+		if (curPageServices[k]["company_location_description"]){
+			description = '<td class="description">' + curPageServices[k]["company_location_description"];
+		} else if (curPageServices[k]["company_description"]) {
+			description = '<td class="description">' + curPageServices[k]["company_description"];
 		}
-		
-		// cut the long descriptions down to a reasonable 25 characters long
-		if (description.length > 25 && description.indexOf('<td ') != 0) {
-			description = description.slice(0, 25) + "...";
-		}
+		/*
+		// cut the long descriptions down to a reasonable 20 characters long
+		if (description.length > 20 && description.indexOf('<td ') != 0) {
+			description = description.slice(0, 20) + "...";
+		}*/
 		
 		tableRow += description + '</td>';
 		
 		// Add in the Terminal
 		var terminalDescription = '<td class="unimportant">Not Provided';
-		if (resultsArray[k]["terminal"]) {
-			terminalDescription = "<td>" + resultsArray[k]["terminal"];
+		if (curPageServices[k]["terminal"]) {
+			terminalDescription = "<td>" + curPageServices[k]["terminal"];
 		}
 		tableRow += terminalDescription + '</td>';
 		
 		// Add in the Distance (only if provided current location)
 		if (locationProvided) {
-			let serviceLat = resultsArray[k]["lat"];
-			let serviceLon = resultsArray[k]["long"];
+			let serviceLat = curPageServices[k]["lat"];
+			let serviceLon = curPageServices[k]["long"];
 			tableRow += getUserDistanceFromCoords(serviceLat, serviceLon) + '</td>';
 		}
 		
@@ -98,6 +110,50 @@ function fillTable(resultsArray) {
 	/* Extremely hacky solution, returns zero so that sortTableAlphabetically gets called with argument 0
 	after this function finishes in initialize() */
 	return 0;
+}
+
+function groupSequentially(arr, numPerGroup) {
+	/* Given an array arr and n=numPerGroup, return a new array of the form:
+	[[first n items of arr], [next n items of arr],...[2nd to last n items of arr], [remaining items of arr]]*/
+	var group = [];
+    var groups = [];
+	for (var i = 0; i < arr.length; i++) {
+		if (i % numPerGroup == 0 && i != 0) {
+			groups.push(group);
+			group = [];
+		}
+		group.push(arr[i]);
+	}
+	if (group != []) {
+		groups.push(group);
+	}
+	return groups;
+}
+
+function updateHeader(numServices, first, numPerGroup) {
+	// Construct the message about query result and what's on the page, and put it in the header element
+	let msg = "Found " + numServices + " service";
+	if (numServices != 1) {
+		msg += "s";
+	}
+	msg += ", showing items " + first + " to " + (first + numPerGroup - 1) + ":";
+	var textNode = document.createTextNode(msg);
+	document.getElementById("top_name").appendChild(textNode);
+}
+
+function newPageButton(num) {
+	// Returns a button element for page #num
+	var newButton = document.createElement("button");
+	newButton.innerHTML = num.toString();
+	newButton.type = "button";
+	newButton.onclick = function () {goToPage(num)};
+	"goToPage(" + num + ")";
+	let cls = "page_button";
+	if (num == page) {
+		cls += " current";
+	}
+	newButton.setAttribute("class", cls);
+	return newButton;
 }
 
 function removeEmptyParams(params) {
@@ -114,7 +170,18 @@ function removeEmptyParams(params) {
 function getAPISearchUrl(){
 	// Generate URL for the API based on GET parameters of current page.
 	let filteredParams = removeEmptyParams(searchParams);
-	return getAPIBaseURL() + "/services?" + filteredParams.toString();
+	let coordsParam = '';
+	// Convert lat and long to correct format for our API
+	if (filteredParams.has('latitude') && filteredParams.has('longitude')){
+		let lat = parseFloat(filteredParams.get('latitude'));
+		let lon = parseFloat(filteredParams.get('longitude'));
+		if (!isNaN(lat) && !isNaN(lon)) {
+			coordsParam = '&coordinates=' + lat + ',' + lon;
+			console.log(filteredParams.toString());
+		}
+	}
+	
+	return getAPIBaseURL() + "/services?" + filteredParams.toString() + coordsParam;
 }
 
 function getAPIBaseURL() {
@@ -122,22 +189,15 @@ function getAPIBaseURL() {
     return APIBaseURL;
 }
 
-function flipPage(change){
-	// Causes the thisPage global variable to change when a page changing button is pressed
-	let page = searchParams.get("page");
-	// Ensure that if no page number was given, there is an initial value
-	if (!page) {
-		page = 0;
-	} else {
-		page = parseInt(currentPage);
-	}
-	page += change;
-	// Ensure sure the current page does not fall below 0
-	if (page < 0) {
-		page = 0;
-	}
-	thisPage = page;
-	initialize()
+function getBaseURL() {
+    var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+    return baseURL;
+}
+
+function goToPage(newPage){
+	// Navigate to URL except with page=newPage
+	searchParams.set('page', newPage);
+	window.location.href = getBaseURL() + "/results?" + searchParams.toString();
 }
 
 function getUserDistanceFromCoords(serviceLat, serviceLon) {
@@ -155,8 +215,8 @@ function getUserDistanceFromCoords(serviceLat, serviceLon) {
 									Math.cos(userLat) * Math.cos(serviceLat) *
 									Math.cos(Math.abs(userLon-serviceLon)));
 	
-	let distance = 3959*angleSeparation;
-	return '<td>' + distance.toFixed(2) + ' mi';
+	let distance = 6371548*angleSeparation;
+	return '<td>' + distance.toFixed(2) + ' m';
 }
 
 
@@ -248,9 +308,12 @@ function sortTableAlphabetically(n) {
 	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort numerically.*/
 function sortTableNumerically(n) {
-	var table, rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-	table = document.getElementById("myTable");
+	var table, rows, switching, i, x, y, dir, shouldSwitch, switchcount = 0;
+	table = document.getElementById("resultsTable");
 	switching = true;
+	
+	//Set the sorting direction to ascending:
+	dir = "asc"; 
 	/*Make a loop that will continue until
 	no switching has been done:*/
 	while (switching) {
@@ -266,15 +329,24 @@ function sortTableNumerically(n) {
 			one from current row and one from the next:*/
 			x = rows[i].getElementsByTagName("TD")[n];
 			y = rows[i + 1].getElementsByTagName("TD")[n];
-			//check if the two rows should switch place:
+			var xValue = parseFloat(x.innerHTML.split(" ")[0]);
+			var yValue = parseFloat(y.innerHTML.split(" ")[0]);
+			if (!xValue) {
+				xValue = 0;
+			}
+			if (!yValue) {
+				yValue = 0;
+			}
+			/*check if the two rows should switch place,
+			based on the direction, asc or desc:*/
 			if (dir == "asc") {
-				if (Number(x.innerHTML) > Number(y.innerHTML)) {
+				if (xValue > yValue) {
 					//if so, mark as a switch and break the loop:
 					shouldSwitch= true;
 					break;
 				}
 			} else if (dir == "desc") {
-				if (Number(x.innerHTML) < Number(y.innerHTML)) {
+				if (xValue < yValue) {
 					//if so, mark as a switch and break the loop:
 					shouldSwitch = true;
 					break;
@@ -286,7 +358,8 @@ function sortTableNumerically(n) {
 			and mark that a switch has been done:*/
 			rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
 			switching = true;
-			switchcount++;
+			//Each time a switch is done, increase this count by 1:
+			switchcount ++;      
 		} else {
 			/*If no switching has been done AND the direction is "asc",
 			set the direction to "desc" and run the while loop again.*/
@@ -301,16 +374,13 @@ function sortTableNumerically(n) {
 	let indicator = " &darr;"
 	if (dir == "desc") {
 		indicator = " &uarr;"
-		// if the sorting direction is down, use an up arrow instead of a down arrow.
 	}
 	let sortingColumn = "columnheading" + n.toString();
-	// clear all non-indicating columns to original form
 	document.getElementById("columnheading0").innerHTML = "Company Name";
 	document.getElementById("columnheading1").innerHTML = "Description";
 	document.getElementById("columnheading2").innerHTML = "Terminal";
 	if (locationProvided){
 		document.getElementById("columnheading3").innerHTML = "Distance";
 	}
-	// add indicator to the correct column heading
 	document.getElementById(sortingColumn).innerHTML += indicator;
 }
