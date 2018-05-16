@@ -7,8 +7,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='results.js') }}" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>Search Results</title>
-
-	
 </head>
 
 <body>
@@ -16,8 +14,8 @@
 	<button onclick="location.href='/'" id="home_button" type="button"><h1>Return to Main Page</h1></button>
 	
 	<h2 id="top_name">Search Results: </h2>
-	
-	
+	<p class="centered"> To sort table, click on column headers.</p>
+
 	<p><table id="resultsTable"></table></p>
 	
 	<p id="bugfixer"><p>

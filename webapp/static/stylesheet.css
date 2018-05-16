@@ -126,3 +126,7 @@ dd {
 .unimportant {
 	color: grey;
 }
+
+p.centered {
+	text-align: center;
+}
