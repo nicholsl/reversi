@@ -2,10 +2,14 @@ README.txt
 For webapp assignment due 5/15/2018
 Written by Cameron Kline-Sharpe and Joshua Gerstein.
 
-First, be aware that our webapp uses a geolocator function without using https, 
-so browsers will throw a warning about an unsecured server. We promise that our
-program was not written with malicious intent, and will not intentionally 
-cause the people using it harm.
+First, be aware that our webapp needs to use geolocation, which requires https, 
+and because of the restrictions of hosting on perlman, there was no way for us to
+get a "real" SSL certificate. We are using a self-signed certificate, which no OS 
+or browser will trust. So, browsers will throw a warning about an invalid 
+certificate, and to access our webapp one must go around that warning. The private
+key is stored directly on perlman, so anyone with access to that could decrypt
+your communications including gps location if you provide it, so this is obviously 
+not secure, nor intended to be.
 
 This webapp provides the people who use it with the ability to search for
 services (restaurants, gift shops, currency exchange, etc.) which are 
