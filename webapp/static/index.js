@@ -1,5 +1,8 @@
 /*
 	Created by Cameron Kline-Sharpe and Joshua Gerstein
+	Used with the index.html file to create the home page for
+	a webapp which searches for services available in the LAX
+	airport.
 	
 */
 

@@ -7,68 +7,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='results.js') }}" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>Search Results</title>
-	<style>
-		.page_button {
-			background-color: #6699ff;
-			border: none;
-			color: black;
-			padding: 10px 16px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			margin: 2px 2px;
-			cursor: pointer;
-		}
-		
-		.page_button:hover{
-			background-color: lightblue;
-		}
-		
-		#home_button {
-			background-color: #00f0a1;
-			border: none;
-			color: black;
-			width: 100%;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			margin: 2px 2px;
-			cursor: pointer;
-		}
-			
-		#home_button:hover {
-			background-color: #99ffcc;
-		}
-		
-		#paging_buttons {
-			text-align: center;
-		}
-		
-		/* Table syle adapted from w3schools https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro */
-		table {
-			border-collapse: collapse;
-			width: 100%;
-		}
 
-		td, th {
-			border: 1px solid #8c8c8c;
-			text-align: left;
-			padding: 8px;
-		}
-		
-		th:hover {
-			cursor: pointer;
-		}
-
-		tr:nth-child(even) {
-			background-color: #dddddd;
-		}
-		
-		#top_name {
-			padding-left: 20px;
-		}
-	</style>
 	
 </head>
 
@@ -78,11 +17,14 @@
 	
 	<h2 id="top_name">Search Results: </h2>
 	
-	<p><table id="resultsTable"></table></p>
-
 	
+	<p><table id="resultsTable"></table></p>
+	
+	<p id="bugfixer"><p>
+
 	<div id="paging_buttons">
 		<button type="button" id="previousButton" onclick="flipPage(-1)" class="page_button">Previous</button>
+		<button id="CurrentPageButton" class="page_button" onclick="flipPage(0)">0</button>
 		<button type="button" id="nextButton" onclick="flipPage(1)" class="page_button">  Next  </button>
 	</div>
 	

@@ -11,12 +11,11 @@
 var searchParams = new URLSearchParams(window.location.search.substring(1));
 var resultsTable = document.getElementById("resultsTable");
 var locationProvided = searchParams.get("latitude") && searchParams.get("longitude");
-var currentPage = 0;
+var thisPage = 0;
 
 initialize();
 
 function initialize() {
-	
 	// Send the request to the services API /services endpoint
     fetch(getAPISearchUrl(), {method: 'get'})
 
@@ -24,8 +23,8 @@ function initialize() {
     // a Javascript object (in this case, a list of author dictionaries).
     .then((response) => response.json())
 
-    // Once you have your list of author dictionaries, use it to build
-    // an HTML table displaying the author names and lifespan.
+    // Use the service dictionaries to build
+    // an HTML table displaying information about the services
     .then(fillTable)
 	.then(sortTableAlphabetically);
 	
@@ -34,11 +33,15 @@ function initialize() {
 function fillTable(resultsArray) {
 	// Check to make sure the current page number isn't too high
 	// The too low case is handled in flipPage().
-	if ((currentPage * 25) - 1 > resultsArray.length) {
-		// TODO: instead of -= 1, should set it to last page.
-		currentPage -= 1;
+	if ((thisPage * 25) - 1 > resultsArray.length) {
+		thisPage -= 1;
 	}
+	//set the internal variable to the global variable
+	let currentPage = thisPage;
 	
+	//set the value on the current page button
+	document.getElementById("CurrentPageButton").innerHTML = " " + currentPage.toString() + " ";
+
 	// Build the table body.
 	let tableBody = '';
 	// Add in table headings
@@ -68,6 +71,7 @@ function fillTable(resultsArray) {
 			description = '<td>' + resultsArray[k]["company_description"];
 		}
 		
+		// cut the long descriptions down to a reasonable 25 characters long
 		if (description.length > 25 && description.indexOf('<td ') != 0) {
 			description = description.slice(0, 25) + "...";
 		}
@@ -90,50 +94,11 @@ function fillTable(resultsArray) {
 		
 		tableBody += tableRow + '</tr>';
 	}
-	resultsTable.innerHTML = tableBody;
+	resultsTable.innerHTML = tableBody;	
 	/* Extremely hacky solution, returns zero so that sortTableAlphabetically gets called with argument 0
 	after this function finishes in initialize() */
 	return 0;
 }
-
-function flipPage(change){
-	let currentPage = searchParams.get("page");
-	// Ensure that if no page number was given, there is an initial value
-	if (!currentPage) {
-		currentPage = 0;
-	} else {
-		currentPage = parseInt(currentPage);
-	}
-	currentPage += change;
-	// Ensure sure the current page does not fall below 0
-	if (currentPage < 0) {
-		currentPage = 0;
-	}
-	fillTable(currentPage);
-}
-
-function toRadians(degree){
-	return degree * Math.PI / 180;
-}
-
-function getUserDistanceFromCoords(serviceLat, serviceLon) {
-	serviceLat = toRadians(serviceLat);
-	serviceLon = toRadians(serviceLon);
-	if (!serviceLat || !serviceLon) {
-		return '<td class="unimportant">Unknown';
-	}
-	let userLat = toRadians(parseFloat(searchParams.get("latitude")));
-	let userLon = toRadians(parseFloat(searchParams.get("longitude")));
-	
-	// Great Circle calculation
-	let angleSeparation = Math.acos(Math.sin(userLat) * Math.sin(serviceLat) + 
-									Math.cos(userLat) * Math.cos(serviceLat) *
-									Math.cos(Math.abs(userLon-serviceLon)));
-	
-	let distance = 3959*angleSeparation;
-	return '<td>' + distance.toFixed(2) + ' mi';
-}
-
 
 function removeEmptyParams(params) {
 	// Given search parameters, return a new parameters object that omits parameters with empty value
@@ -157,11 +122,55 @@ function getAPIBaseURL() {
     return APIBaseURL;
 }
 
+function flipPage(change){
+	// Causes the thisPage global variable to change when a page changing button is pressed
+	let page = searchParams.get("page");
+	// Ensure that if no page number was given, there is an initial value
+	if (!page) {
+		page = 0;
+	} else {
+		page = parseInt(currentPage);
+	}
+	page += change;
+	// Ensure sure the current page does not fall below 0
+	if (page < 0) {
+		page = 0;
+	}
+	thisPage = page;
+	initialize()
+}
+
+function getUserDistanceFromCoords(serviceLat, serviceLon) {
+	// Calculates how far away the given coordinates are from a service's coordinates
+	serviceLat = toRadians(serviceLat);
+	serviceLon = toRadians(serviceLon);
+	if (!serviceLat || !serviceLon) {
+		return '<td class="unimportant">Unknown';
+	}
+	let userLat = toRadians(parseFloat(searchParams.get("latitude")));
+	let userLon = toRadians(parseFloat(searchParams.get("longitude")));
+	
+	// Great Circle calculation
+	let angleSeparation = Math.acos(Math.sin(userLat) * Math.sin(serviceLat) + 
+									Math.cos(userLat) * Math.cos(serviceLat) *
+									Math.cos(Math.abs(userLon-serviceLon)));
+	
+	let distance = 3959*angleSeparation;
+	return '<td>' + distance.toFixed(2) + ' mi';
+}
+
+
+function toRadians(degree){
+	// simple math function used by getUserDistanceFromCoords()
+	return degree * Math.PI / 180;
+}
+
 /* 	Code below adapted from w3schools code at 
 	https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sort_table_desc.
 	Sorts a table based on the column values in column n, but can only sort alphabetically.*/
 function sortTableAlphabetically(n) {
 	var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+	// prevent the anchors' link string from being considered.
 	let itemTag;
 	if (n == 0){
 		itemTag = "A";

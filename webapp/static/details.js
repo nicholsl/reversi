@@ -29,7 +29,15 @@ function initialize(){
     .then(fillPageWithService)
 }
 
+
+/* Populates the page with information about the service being examined*/
 function fillPageWithService(serviceJSON) {
+	
+	//if there is nothing returned, do not try to fill the page
+	if (serviceJSON.length != 1) {
+		return;
+	}
+	
 	var service = serviceJSON[0];
 	// Set the title and main heading to the service's name
 	titleElt.innerHTML = service["company_name"];
@@ -94,11 +102,13 @@ String.prototype.toTitleCase = function () {
 };
 
 function getAPISearchURL() {
+	// Get the url to query the api with
     let APIbaseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;
     return APIbaseURL + "/services?company_location_id=" + serviceId;
 }
 
 function generateMap(lat, lon, markerTitle){
+	// uses the Google Maps api to create a map on the details page
 	let coords = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
 		center: coords,

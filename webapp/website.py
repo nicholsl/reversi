@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """ Template by Jeff Ondich, modified by Josh Gerstein and Cameron Kline-Sharpe
+	Used along with api.py to create a webapp which which searches for services
+	available in the LAX airport.
+	
 """
 import sys
 
@@ -10,6 +13,7 @@ app = flask.Flask(__name__, static_folder='static', template_folder='templates')
 
 @app.route('/')
 def get_main_page():
+	#When the site is first accessed, run the homepage
     return flask.render_template('index.html')
 
 
@@ -31,10 +35,10 @@ def get_details_page(service_id):
 
 
 def main():
+	# basic input error checking
     if len(sys.argv) != 4:
         print('Usage: {0} host port api-port'.format(sys.argv[0]), file=sys.stderr)
         exit()
-
     host = sys.argv[1]
     port = int(sys.argv[2])
     # api_port = sys.argv[3]
