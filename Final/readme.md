@@ -23,7 +23,7 @@ Views will consist of the board state
 
 Classes will be:
 
-board, piece, board location, 
+board, piece, board location, game history 
 
 Controller will:
 - initialize the board
