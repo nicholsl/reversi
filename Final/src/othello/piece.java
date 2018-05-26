@@ -3,3 +3,12 @@ package edu.carleton.gersteinj.othello;
 
 public class piece {
 }
+
+public boolean flip(){
+    if black{
+        return false;
+    }
+    if white {
+        return true;
+    }
+}
