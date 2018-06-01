@@ -3,24 +3,24 @@ package edu.carleton.gersteinj.othello;
 
 public class history {
 
-    string movesequence = '';
+    String movesequence;
     int whitecount = 0;
     int blackcount = 0;
-    string finalWinner = '';
+    String finalWinner;
 
-    public string getMoveSequence{
+    public String getMoveSequence(){
         return movesequence;
     }
 
-    public string setMoveSequence{
+    public String setMoveSequence(){
 
     }
 
-    public string getWhiteCount{
+    public String getWhiteCount(){
 
     }
 
-    public string setWhiteCount{
+    public String setWhiteCount(){
 
     }
 
