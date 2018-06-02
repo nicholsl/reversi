@@ -1,27 +1,45 @@
 package edu.carleton.gersteinj.othello;
-//keeps track of a particular game's history
+// Stores the history of a completed game.
 
-public class history {
+import java.util.LinkedList;
+import java.util.List;
 
-    String movesequence;
-    int whitecount = 0;
-    int blackcount = 0;
+public class History {
+
+    private List<Board.Coordinates> moveSequence;
+    int whiteCount = 0;
+    int blackCount = 0;
     String finalWinner;
 
-    public String getMoveSequence(){
-        return movesequence;
+    public History() {
+        this(new LinkedList<Board.Coordinates>());
     }
 
-    public String setMoveSequence(){
+    public History(List<Board.Coordinates> moveSequence) {
+        this.moveSequence = moveSequence;
+    }
+
+    public List<Board.Coordinates> getMoveSequence() {
+        return moveSequence;
+    }
+
+    public void setMoveSequence() {
 
     }
 
-    public String getWhiteCount(){
+    public String getWhiteCount() {
 
     }
 
-    public String setWhiteCount(){
+    public String setWhiteCount() {
 
+    }
+
+    public String toString() {
+        String moveString = "";
+        for (Board.Coordinates move : moveSequence){
+
+        }
     }
 
 }
