@@ -126,4 +126,5 @@ public class Board {
     public boolean isBlackToMove() {
         return blackToMove;
     }
+
 }

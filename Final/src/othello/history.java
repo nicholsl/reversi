@@ -1,6 +1,8 @@
 package edu.carleton.gersteinj.othello;
 // Stores the history of a completed game. TODO: Need to totally rewrite this class
 
+import edu.carleton.gersteinj.othello.views.Board;
+
 import java.util.LinkedList;
 import java.util.List;
 
