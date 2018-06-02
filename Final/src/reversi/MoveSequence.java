@@ -1,15 +1,15 @@
-package edu.carleton.gersteinj.othello;
+package edu.carleton.gersteinj.reversi;
 
 import java.util.LinkedList;
 
 /*
  * MoveSequence is a LinkedList of Board.Coordinates objects, with an appropriately changed string representation
  */
-public class MoveSequence extends LinkedList<Board.Coordinates> {
+public class MoveSequence extends LinkedList<Coordinates> {
     /* Instead of returning [item1,item2,...,itemN], returns item1item2item3...itemN */
     public String toString() {
         StringBuilder moveString = new StringBuilder();
-        for (Board.Coordinates move : this) {
+        for (Coordinates move : this) {
             moveString.append(move.toString());
         }
         return moveString.toString();

@@ -1,4 +1,4 @@
-package edu.carleton.gersteinj.othello;
+package edu.carleton.gersteinj.reversi;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
