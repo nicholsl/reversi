@@ -1,8 +1,5 @@
 package edu.carleton.gersteinj.othello.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Board state will be kept track of with an 8x8x3 matrix - columns, rows, content
  */
