@@ -1,9 +1,9 @@
-package edu.carleton.gersteinj.othello;
+package edu.carleton.gersteinj.othello.views;
 
 /**
  * Board state will be kept track of with an 8x8x3 matrix - columns, rows, content
  */
-public class Board {
+public class Board extends GridPane{
     /*
      Subclass for board coordinates
      */
@@ -34,4 +34,5 @@ public class Board {
     public boolean applyMove(Coordinates move) {
         return false;
     }
+
 }
