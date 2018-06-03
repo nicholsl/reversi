@@ -1,5 +1,6 @@
 package edu.carleton.gersteinj.reversi;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,11 +53,14 @@ class Board {
         this.moveSequence = moveSequence;
         blackToMove = true;
         // Set starting pieces
-        state = new Content[8][8];
-        state[4][3] = Content.BLACK;
-        state[3][4] = Content.BLACK;
-        state[3][3] = Content.WHITE;
-        state[4][4] = Content.WHITE;
+        state = new Content[numRows][numCols];
+        for (Content[] row : state) {
+            Arrays.fill(row, Content.EMPTY);
+        }
+        state[numCols/2][numRows/2 - 1] = Content.BLACK;
+        state[numCols/2 - 1][numRows/2] = Content.BLACK;
+        state[numCols/2 - 1][numRows/2 - 1] = Content.WHITE;
+        state[numCols/2][numRows/2] = Content.WHITE;
         for (Coordinates move : moveSequence) {
             try {
                 applyMove(move);
