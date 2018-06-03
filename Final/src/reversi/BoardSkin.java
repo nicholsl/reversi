@@ -23,24 +23,23 @@ public class BoardSkin extends GridPane {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
 
-    static GridPane grid;
 
     public BoardSkin(){
-        grid = new GridPane();
-        grid.getStyleClass().add("game-grid");
+        super();
+        getStyleClass().add("game-grid");
 
         for (int i = 0; i < WIDTH; i++){
             ColumnConstraints column = new ColumnConstraints(100);
-            grid.getColumnConstraints().add(column);
+            getColumnConstraints().add(column);
 
         }
 
         for(int i = 0; i < HEIGHT; i++) {
             RowConstraints row = new RowConstraints(100);
-            grid.getRowConstraints().add(row);
+            getRowConstraints().add(row);
         }
 
-        grid.setStyle("-fx-background-color: blue; -fx-grid-lines-visible: true");
+        setStyle("-fx-background-color: blue; -fx-grid-lines-visible: true");
 
 
     }
