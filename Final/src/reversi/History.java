@@ -40,6 +40,9 @@ class History implements Serializable {
         }
     }
 
+    /**
+     * @param filename: name of file to store serialization at.
+     */
     void save(String filename) {
         FileOutputStream fileOut;
         ObjectOutputStream out;

@@ -1,9 +1,10 @@
 package edu.carleton.gersteinj.reversi;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /*
- * MoveSequence is a LinkedList of Board.Coordinates objects, with an appropriately changed string representation
+ * MoveSequence is a LinkedList of Model.Coordinates objects, with an appropriately changed string representation
  */
 public class MoveSequence extends LinkedList<Coordinates> {
     /* Instead of returning [item1,item2,...,itemN], returns item1item2item3...itemN */

@@ -13,10 +13,10 @@ public class Square {
         return state.get();
     }
 
-    private final Board board;
+    private final Model model;
 
-    public Square(Board board){
-        this.board = board;
+    public Square(Model model){
+        this.model = model;
 
         skin = new SquareSkin(this);
     }
