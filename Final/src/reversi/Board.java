@@ -20,6 +20,7 @@ class Board {
             }
         }
     }
+
     private Content[][] state;
     private boolean blackToMove;
     private MoveSequence moveSequence;
