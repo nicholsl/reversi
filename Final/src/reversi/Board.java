@@ -1,118 +1,215 @@
 package edu.carleton.gersteinj.reversi;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /* Board is the part of the model that stores the current state of a game. It also stores the moves played in a game
  * with an instance of MoveSequence.
  */
-public class Board {
-    /* For the sake of low memory usage, the board is stored as an 8x8 array of bytes.
-     * Meanings of values are as follows:
-     * 0 = empty space
-     * 1 = black piece
-     * 2 = white piece
-     */
-    private byte[][] state;
+class Board {
+    enum Content {
+        EMPTY, BLACK, WHITE;
+        Content flipped(){
+            if (this.equals(BLACK)) {
+                return WHITE;
+            } else if (this.equals(WHITE)) {
+                return BLACK;
+            } else {
+                return EMPTY;
+            }
+        }
+    }
+    private Content[][] state;
     private boolean blackToMove;
     private MoveSequence moveSequence;
-    private byte numRows = 8;
-    private byte numCols = 8;
-
-
-
+    private final int numRows;
+    private final int numCols;
 
 
     /**
-     * Constructor. Initializes a board in the state that games start in (4 pieces in middle, black to move).
+     * Default constructor, 8x8 board.
+     * Initializes a board in the state that games start in (4 pieces in middle, black to move).
      */
     Board() {
-        blackToMove = true;
-        // Set starting pieces
-        state = new byte[8][8];
-        state[4][3] = 1;
-        state[3][4] = 1;
-        state[3][3] = 2;
-        state[4][4] = 2;
-        moveSequence = new MoveSequence();
+        this(8, 8, new MoveSequence());
     }
 
-    /*
-       Compute and return the current coordinates at which the current player could place a piece.
+    /**
+     * Constructor. Initializes a board in the state that games start in (4 pieces in middle, black to move), then
+     * applies each move from the given moveSequence in order. If ANY move in the move sequence is illegal, ignores
+     * all subsequent moves.
+     *
+     * @param numRows: Number of rows the board will have
+     * @param numCols: Number of columns the board will have
+     * @throws IllegalArgumentException: If given negative or zero number of rows/columns.
      */
-    List<Coordinates> getAvailableMoves() {
-        List<Coordinates> movesList = new ArrayList<>();
+    Board(int numRows, int numCols, MoveSequence moveSequence) throws IllegalArgumentException {
+        if (numCols < 1 || numRows < 1) {
+            throw new IllegalArgumentException("A board must have positive number of rows and columns.");
+        }
+        this.numRows = numRows;
+        this.numCols = numCols;
+        this.moveSequence = moveSequence;
+        blackToMove = true;
+        // Set starting pieces
+        state = new Content[8][8];
+        state[4][3] = Content.BLACK;
+        state[3][4] = Content.BLACK;
+        state[3][3] = Content.WHITE;
+        state[4][4] = Content.WHITE;
+        for (Coordinates move : moveSequence) {
+            try {
+                applyMove(move);
+            } catch (IllegalMoveException e) {
+                // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
+                return;
+            }
+        }
+    }
+
+    /* Return true if the given coordinate is on the board, false otherwise. */
+    boolean isMoveOnBoard(Coordinates move) {
+        return move.x >= 0 && move.x <= numCols - 1 && move.y >= 0 && move.y <= numRows - 1;
+    }
+
+    /* Return true if it's black's turn, false otherwise */
+    boolean isBlackToMove() {
+        return blackToMove;
+    }
+
+    /**
+     * @return Color of player whose turn it is ("Black" or "White").
+     */
+    String curPlayer() {
+        if (isBlackToMove()) {
+            return "Black";
+        } else {
+            return "White";
+        }
+    }
+
+    /**
+     * @param location: location at which to check contents
+     * @return a Content object, contents of the board at given location.
+     * @throws ArrayIndexOutOfBoundsException: If given location is off the board.
+     */
+    private Content contentsAt(Coordinates location) throws ArrayIndexOutOfBoundsException {
+        return state[location.x][location.y];
+    }
+
+    Content[][] getBoardContents() {
+        return state;
+    }
+
+    /**
+     * Compute and return the current coordinates at which the current player could place a piece.
+     *
+     * @return A Set of the available moves
+     */
+    Set<Coordinates> getAvailableMoves() {
+        Set<Coordinates> availableMoves = new HashSet<>();
         for (byte i = 0; i < 8; i++) {
             for (byte j = 0; j < 8; j++) {
                 Coordinates move = new Coordinates(i, j);
                 if (isLegalMove(move)) {
-                    movesList.add(move);
+                    availableMoves.add(move);
                 }
             }
         }
-        return movesList;
+        return availableMoves;
     }
 
-    boolean isLegalMove(Coordinates move) {
-        // Can't place piece on non-empty space, or off board.
-        if (!isMoveOnBoard(move) || state[move.x][move.y] != 0) {
-            return false;
-        }
-        // Assign variables to current player's color and opponent's color
-        int playerPiece = blackToMove ? 1 : 2;
-        int opponentPiece = 3 - playerPiece;
+    /**
+     * @param move where new piece is/would be placed
+     * @return a Set of all coordinates of opponent's pieces that would be flipped by given move.
+     */
+    private Set<Coordinates> getLocationsFlippedByMove(Coordinates move) {
+        Content playerPiece = blackToMove ? Content.BLACK : Content.WHITE;
+        Content opponentPiece = playerPiece.flipped();
         Coordinates curLocation;
-        // Check if there is, in any of the 8 directions, a line of the form:
+        Set<Coordinates> flippedLocations = new HashSet<>();
+
+        // Can't place piece on non-empty space, or off board, so no pieces will be flipped in this case.
+        if (!isMoveOnBoard(move) || state[move.x][move.y] != Content.EMPTY) {
+            return flippedLocations;
+        }
+
+        // Check if there is, in each of the 8 directions, a line of the form:
         // current move coordinate -> <opponent's pieces> -> player's piece
         byte[][] directionVectors = new byte[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
         for (byte[] direction : directionVectors) {
             boolean reachedOpponentPiece = false;
+            Set<Coordinates> flipCandidates = new HashSet<>();
             curLocation = new Coordinates(move);
             curLocation.x += direction[0];
             curLocation.y += direction[1];
             while (isMoveOnBoard(curLocation)) {
-                byte curPiece = state[curLocation.x][curLocation.y];
+                Content curPiece = state[curLocation.x][curLocation.y];
                 if (reachedOpponentPiece) {
                     if (curPiece == playerPiece) {
-                        return true;
-                    } else if (curPiece == opponentPiece) {
-                        //noinspection UnnecessaryContinue
+                        // Found a line of opponent pieces bookended by the current move and a friendly piece, add all
+                        // the "candidates" to flippedLocations as they will actually be flipped.
+                        flippedLocations.addAll(flipCandidates);
+                    } else if (curPiece.equals(opponentPiece)) {
+                        // Current piece is part of line of opponent pieces, add as a flip "candidate"
+                        flipCandidates.add(curLocation);
                         continue;
-                    } else if (curPiece == 0) {
+                    } else if (curPiece.equals(Content.EMPTY)) {
+                        // Line of opponent pieces ended with empty square, do not flip.
                         break;
                     }
-                } else if (curPiece != opponentPiece) {
+                } else if (!curPiece.equals(opponentPiece)) {
+                    // Adjacent piece is friendly or empty, no stones flipped (in current direction)
                     break;
                 } else {
+                    // Start tracking line of opponent pieces, add them as "candidates" to be flipped.
                     reachedOpponentPiece = true;
+                    flipCandidates.add(curLocation);
                 }
                 curLocation.x += direction[0];
                 curLocation.y += direction[1];
             }
         }
-        // If it didn't return true for any direction, then move is not legal.
-        return false;
+        return flippedLocations;
     }
 
-    /*
-     * Applies the given move to the board's state. Return a boolean of whether or not the move was legal. If not legal
-     * move, state doesn't change.
+
+    /**
+     * In reversi, a move is legal if and only if it flips at least one of the opponent's pieces, so this function just
+     * checks that.
+     *
+     * @param move: move to check legality of
+     * @return boolean whether or not move is legal
      */
-    boolean applyMove(Coordinates move) {
-        if (isLegalMove(move)) {
-            //TODO: actually apply move
+    private boolean isLegalMove(Coordinates move) {
+        return getLocationsFlippedByMove(move).isEmpty();
+    }
+
+    /**
+     * Applies the given move to the board's state.
+     *
+     * @throws IllegalMoveException if given move is illegal (then does not change state)
+     */
+    void applyMove(Coordinates move) throws IllegalMoveException {
+        if (!isLegalMove(move)) {
+            String reason = curPlayer() + " piece cannot be placed at " + move.toString();
+            if (!isMoveOnBoard(move)) {
+                reason += " because that would be off the board.";
+            } else if (!state[move.x][move.y].equals(Content.EMPTY)) {
+                reason += " because there is already a piece there.";
+            } else {
+                reason += " because that wouldn't flip any pieces.";
+            }
+            throw new IllegalMoveException(move, reason);
+        } else {
+            // Add move to move sequence
+            moveSequence.addLast(move);
+            // Flip each opponent piece
+            for (Coordinates location : getLocationsFlippedByMove(move)) {
+                state[location.x][location.y] = contentsAt(location).flipped();
+            }
             blackToMove = !blackToMove;
         }
-        return isLegalMove(move);
-    }
-
-    /* Return true if the given coordinate is on the board, false otherwise. */
-    boolean isMoveOnBoard(Coordinates move){
-        return move.x >= 0 && move.x <= numCols - 1 && move.y >= 0 && move.y <= numRows - 1;
-    }
-
-    boolean isBlackToMove() {
-        return blackToMove;
     }
 
 }

@@ -1,8 +1,4 @@
-<<<<<<< HEAD:Final/src/reversi/views/Board.java
 package edu.carleton.gersteinj.reversi.views;
-=======
-package edu.carleton.gersteinj.othello.views;
->>>>>>> a25a14232037fff1b4a6130b36667361ee949a17:Final/src/reversi/views/Board.java
 
 /**
  * Board state will be kept track of with an 8x8x3 matrix - columns, rows, content
