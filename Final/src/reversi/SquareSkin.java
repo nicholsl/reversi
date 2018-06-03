@@ -1,35 +1,15 @@
-package edu.carleton.gersteinj.reversi.views;
+package edu.carleton.gersteinj.reversi;
 
-import javafx.beans.value.*;
-import javafx.event.*;
-import javafx.scene.image.*;
+import edu.carleton.gersteinj.reversi.Square;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
 
-public class Square {
-    enum State { EMPTY, BLACK, WHITE}
-
-    private final SquareSkin skin;
-
-    private javafx.beans.property.ReadOnlyObjectWrapper<State> state = new javafx.beans.property.ReadOnlyObjectWrapper<>(State.EMPTY);
-    public javafx.beans.property.ReadOnlyObjectProperty<State> stateProperty() {
-        return state.getReadOnlyProperty();
-    }
-    public State getState() {
-        return state.get();
-    }
-
-    private final Game game;
-
-    public Square(Game game){
-        this.game = game;
-
-        skin = new SquareSkin(this);
-    }
-
-}
-
-class SquareSkin extends StackPane {
+public class SquareSkin extends StackPane {
 
     static final Image blackImage = new Image(
             "http://icons.iconarchive.com/icons/double-j-design/origami-colored-pencil/128/green-cd-icon.png"
@@ -46,7 +26,7 @@ class SquareSkin extends StackPane {
         imageView.setMouseTransparent(true);
 
         getChildren().setAll(imageView);
-        setPrefSize(crossImage.getHeight() + 20, crossImage.getHeight() + 20);
+        setPrefSize(whiteImage.getHeight() + 20, whiteImage.getHeight() + 20);
 
         setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -72,5 +52,7 @@ class SquareSkin extends StackPane {
             }
         });
     }
+
 }
+
 
