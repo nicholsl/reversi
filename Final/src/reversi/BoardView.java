@@ -61,9 +61,9 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 //                Circle redCirc = new Circle(4.0, Color.RED);
 //                redCirc.setId(Integer.toString(i*10+j));
 //                add(redCirc,i, j);
-                GameSpace gamespace = new GameSpace(BoardState[i][j]);
+                GameSpace gamespace = new GameSpace(BoardState[i][j], new Coordinates(i, j));
 //                gamespace.setId((Character.toString(boardNotationString.charAt(i))+Integer.toString(j+1)));
-                gamespace.setId(Integer.toString(i)+Integer.toString(j));
+//                gamespace.setId(Integer.toString(i)+Integer.toString(j));
                 add(gamespace,i,j);
                 GridPane.setHalignment(gamespace, HPos.CENTER);
             }
@@ -83,10 +83,11 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 //        int moveX = Character.getNumericValue(node.getId().charAt(0));
 //        int moveY = Character.getNumericValue(source.getId().charAt(1));
 
-        for (Node node : this.getChildren()){
-            if (node instanceof GameSpace){
-                ((GameSpace) node).setState(boardState[Character.getNumericValue(node.getId().charAt(0))][Character.getNumericValue(node.getId().charAt(1))]);
-                ((GameSpace) node).changeCircleBasedOnState();
+        for (Node child : getChildren()){
+            if (child instanceof GameSpace){
+                GameSpace gameSpace = (GameSpace) child;
+                Coordinates location = gameSpace.getLocation();
+                gameSpace.update(boardState[location.x][location.y]);
             }
 
         }
