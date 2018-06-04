@@ -7,88 +7,51 @@ package edu.carleton.gersteinj.reversi;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class GameSpace extends Circle {
+class GameSpace extends Circle {
 
-    enum State { UNPLAYABLE, BLACK, WHITE, PLAYABLE}
-    GameSpace.State state;
+    private Content content;
+    private final Coordinates location;
 
 
-    GameSpace(Content content){
+    GameSpace(Content content, Coordinates location){
         super(50,5,38, Color.valueOf("#4C934C"));
-
-        if (content == Content.PLAYABLE){
-            this.state = State.PLAYABLE;
-            this.setRadius(38);
-        }
-        else if (content == Content.WHITE){
-            this.state = State.WHITE;
-            this.setRadius(38);
-        }
-        else if (content == Content.BLACK){
-            this.state = State.BLACK;
-            this.setRadius(38);
-        }
-        else if (content == Content.UNPLAYABLE){
-            this.state = State.UNPLAYABLE;
-            this.setRadius(38);
-        }
-
-        if (this.state == State.UNPLAYABLE) {
-            this.setFill(Color.valueOf("#4C934C"));
-            this.setRadius(38);
-        }
-        if (this.state == State.PLAYABLE){
-            this.setFill(Color.valueOf("#EDC9FF"));
-            this.setRadius(20);
-        }
-        else if (this.state == State.WHITE){
-            this.setFill(Color.valueOf("#FBFAF8"));
-            this.setRadius(38);
-        }
-        else if (this.state == State.BLACK){
-            this.setFill(Color.valueOf("#0A122A"));
-            this.setRadius(38);
-        }
+        this.location = location;
+        this.content = content;
+        changeCircleBasedOnState();
 
     }
 
-
-    // set state of circle
-    public void setState(Content content){
-        if (content == Content.PLAYABLE){
-            this.state = State.PLAYABLE;
-        }
-        else if (content == Content.WHITE){
-            this.state = State.WHITE;
-        }
-        else if (content == Content.BLACK){
-            this.state = State.BLACK;
-        }
-        else if (content == Content.UNPLAYABLE){
-            this.state = State.UNPLAYABLE;
-        }
-
+    Coordinates getLocation() {
+        return new Coordinates(location);
     }
 
-    //change visual attributes of circle based on state
-    public void changeCircleBasedOnState(){
-        if (this.state == State.UNPLAYABLE) {
-            this.setFill(Color.valueOf("#4C934C"));
-            this.setRadius(38);
-        }
-        if (this.state == State.PLAYABLE){
-            this.setFill(Color.valueOf("#EDC9FF"));
-            this.setRadius(20);
-        }
-        else if (this.state == State.WHITE){
-            this.setFill(Color.valueOf("#FBFAF8"));
-            this.setRadius(38);
-        }
-        else if (this.state == State.BLACK){
-            this.setFill(Color.valueOf("#0A122A"));
-            this.setRadius(38);
-        }
+    void setState(Content content){
+        this.content = content;
     }
 
+    private void changeCircleBasedOnState(){
+        switch(content) {
+            case UNPLAYABLE:
+                setFill(Color.valueOf("#4C934C"));
+                setRadius(38);
+                break;
+            case PLAYABLE:
+                setFill(Color.valueOf("#EDC9FF"));
+                setRadius(20);
+                break;
+            case WHITE:
+                setFill(Color.valueOf("#FBFAF8"));
+                setRadius(38);
+                break;
+            case BLACK:
+                setFill(Color.valueOf("#0A122A"));
+                setRadius(38);
+                break;
+        }
+    }
+    void update(Content content) {
+        setState(content);
+        changeCircleBasedOnState();
+    }
 }
 

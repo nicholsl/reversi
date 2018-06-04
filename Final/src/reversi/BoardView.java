@@ -66,8 +66,7 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
         //ADD GAMESPACES AT EACH NODE IN THE GRAPH PANE
         for (int i = 0; i < boardNotationString.length(); i++) {
             for (int j=0; j<8; j++) {
-                GameSpace gamespace = new GameSpace(BoardState[i][j]);
-                gamespace.setId(Integer.toString(i)+Integer.toString(j));
+                GameSpace gamespace = new GameSpace(BoardState[i][j], new Coordinates(i, j));
                 add(gamespace,i,j);
                 GridPane.setHalignment(gamespace, HPos.CENTER);
             }
@@ -78,10 +77,13 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 
     //UPDATES CONTENT BASED ON BOARD STATE - RUN FROM THE PSEUDOOBSERVER
     public void update(Content[][] boardState) {
-        for (Node node : this.getChildren()){
-            if (node instanceof GameSpace){
-                ((GameSpace) node).setState(boardState[Character.getNumericValue(node.getId().charAt(0))][Character.getNumericValue(node.getId().charAt(1))]);
-                ((GameSpace) node).changeCircleBasedOnState();
+        //TODO
+
+        for (Node child : getChildren()){
+            if (child instanceof GameSpace){
+                GameSpace gameSpace = (GameSpace) child;
+                Coordinates location = gameSpace.getLocation();
+                gameSpace.update(boardState[location.x][location.y]);
             }
 
         }
