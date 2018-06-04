@@ -307,6 +307,8 @@ class Model {
             reassignMoveAvailability();
         }
     }
+
+    //Called by undo button, removes last move from the move sequence
     void undoMove(){
         moveSequence.removeLast();
 

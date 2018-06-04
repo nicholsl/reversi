@@ -1,3 +1,8 @@
+/* By Josh Gerstein and Liz Nichols, 6/3/2018.
+ * MoveSequence stores a linkedlist of moves that have been played
+ * in that game. It is used to initialize a board
+ */
+
 package edu.carleton.gersteinj.reversi;
 
 import java.io.Serializable;

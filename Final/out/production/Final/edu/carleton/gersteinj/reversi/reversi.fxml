@@ -1,3 +1,4 @@
+<!--Fxml for Reversi game - lays out GUI for game in a borderpane -->
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import edu.carleton.gersteinj.reversi.BoardView?>

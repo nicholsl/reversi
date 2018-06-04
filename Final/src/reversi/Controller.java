@@ -1,3 +1,8 @@
+/* By Josh Gerstein and Liz Nichols, 6/3/2018.
+ * Controller functions as the event handler for the game.
+ *
+ */
+
 package edu.carleton.gersteinj.reversi;
 
 import javafx.event.EventHandler;
@@ -27,15 +32,13 @@ public class Controller implements EventHandler<MouseEvent> {
         this.updatePseudoObservers();
     }
 
+    // single function that handles all user mouse inputs
     public void handle(MouseEvent mouseevent){
         final Node source = (Node)mouseevent.getTarget();
 
         System.out.println(source.getId());
 
-        // Class sourceclass = source.getClass();
-
         if (source instanceof GameSpace){
-            System.out.println("this is a gamespace");
             int moveX = Character.getNumericValue(source.getId().charAt(0));
             int moveY = Character.getNumericValue(source.getId().charAt(1));
             Coordinates move = new Coordinates(moveX,moveY);
@@ -47,14 +50,9 @@ public class Controller implements EventHandler<MouseEvent> {
             }
         }
 
-//        if (source.getId()=='undo')
-//            model.undoMove();
-
-
-
     }
 
-
+    //update all observed objects contained in pseudoobserver list from the boardstate
     private void updatePseudoObservers() {
         for (BoardPseudoObserver pseudoObserver : pseudoObservers) {
             pseudoObserver.update(model.getBoardContents());
