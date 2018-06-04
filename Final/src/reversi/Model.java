@@ -63,6 +63,8 @@ class Model {
                 return;
             }
         }
+
+       reassignMoveAvailability();
     }
 
     /* Return true if the given coordinate is on the board, false otherwise. */
@@ -142,8 +144,10 @@ class Model {
             for (int j = 0; j < numRows; j++) {
                 Coordinates move = new Coordinates(i, j);
                 if (isLegalMove(move)) {
+                    System.out.println(move + "is a legal move");
                     setContentAtCoordinates(move, Content.PLAYABLE);
                 } else if (contentOf(move).isEmpty()) {
+                    System.out.println(move+ "is not a legal move");
                     setContentAtCoordinates(move, Content.UNPLAYABLE);
                 }
             }
@@ -184,8 +188,8 @@ class Model {
                         break;
                     } else if (curPiece.equals(opponentPiece)) {
                         // Current piece is part of line of opponent pieces, add as a flip "candidate"
-                        flipCandidates.add(curLocation);
-                        continue;
+                        flipCandidates.add(new Coordinates(curLocation));
+//                        continue;
                     } else if (curPiece.isEmpty()) {
                         // Line of opponent pieces ended with empty square, do not flip.
                         break;
@@ -196,12 +200,13 @@ class Model {
                 } else {
                     // Start tracking line of opponent pieces, add them as "candidates" to be flipped.
                     reachedOpponentPiece = true;
-                    flipCandidates.add(curLocation);
+                    flipCandidates.add(new Coordinates(curLocation));
                 }
                 curLocation.x += direction[0];
                 curLocation.y += direction[1];
             }
         }
+        System.out.println(flippedLocations);
         return flippedLocations;
     }
 
@@ -213,7 +218,7 @@ class Model {
      * @return boolean whether or not move is legal
      */
     private boolean isLegalMove(Coordinates move) {
-        return getLocationsFlippedByMove(move).isEmpty();
+        return !(getLocationsFlippedByMove(move).isEmpty());
     }
 
     /**

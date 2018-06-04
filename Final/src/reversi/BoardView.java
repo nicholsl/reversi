@@ -1,9 +1,14 @@
 package edu.carleton.gersteinj.reversi;
 
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 
 /**
@@ -30,7 +35,7 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
      * @param numCols
      * @param numRows
      */
-    void initialize(int numCols, int numRows) {
+    void initialize(int numCols, int numRows, Content[][] BoardState) {
         this.numCols = numCols;
         this.numRows = numRows;
 
@@ -47,13 +52,33 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
             getRowConstraints().add(row);
         }
 
-        setStyle("-fx-background-color: blue; -fx-grid-lines-visible: true");
+        setStyle("-fx-background-color: #53A548; -fx-grid-lines-visible: true");
+
+        String boardNotationString = "abcdefgh";
+
+        for (int i = 0; i < boardNotationString.length(); i++) {
+            for (int j=0; j<8; j++) {
+//                Circle redCirc = new Circle(4.0, Color.RED);
+//                redCirc.setId(Integer.toString(i*10+j));
+//                add(redCirc,i, j);
+                GameSpace gamespace = new GameSpace(BoardState[i][j]);
+                gamespace.setId((Character.toString(boardNotationString.charAt(i))+Integer.toString(j+1)));
+                add(gamespace,i,j);
+                GridPane.setHalignment(gamespace, HPos.CENTER);
+            }
+
+        }
+//        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> System.out.println(event.getTarget()));
+        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> Controller.handle());
+
 
 
     }
 
     public void update(Content[][] boardState) {
         //TODO
+        System.out.println(boardState);
+
     }
 
 
