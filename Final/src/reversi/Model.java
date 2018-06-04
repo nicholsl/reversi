@@ -13,7 +13,7 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
         //TODO: Remove this line and delete/restrict methods as appropriate when done
 class Model {
-    private Content[][] state;
+    private Content[][] boardState;
     private boolean blackToMove;
     private MoveSequence moveSequence;
     private final int numRows;
@@ -44,51 +44,31 @@ class Model {
         this.numRows = numRows;
         this.numCols = numCols;
         this.moveSequence = moveSequence;
-        blackToMove = true;
-        // Set starting pieces
-
-        state = setState(moveSequence);
-//        state = new Content[numRows][numCols];
-//        for (Content[] row : state) {
-//            Arrays.fill(row, Content.UNPLAYABLE);
-//        }
-//        state[numCols / 2][numRows / 2 - 1] = Content.BLACK;
-//        state[numCols / 2 - 1][numRows / 2] = Content.BLACK;
-//        state[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
-//        state[numCols / 2][numRows / 2] = Content.WHITE;
-//
-//        for (Coordinates move : moveSequence) {
-//            try {
-//                applyMove(move);
-//            } catch (IllegalMoveException e) {
-//                // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
-//                return;
-//            }
-//        }
-
-       reassignMoveAvailability();
+        initializeFromMoves(moveSequence);
     }
 
-    public Content[][] setState(MoveSequence movesequence){
-        state = new Content[numRows][numCols];
-        for (Content[] row : state) {
+    void initializeFromMoves(MoveSequence movesequence) {
+        blackToMove = true;
+        boardState = new Content[numRows][numCols];
+        // Set starting pieces
+        for (Content[] row : boardState) {
             Arrays.fill(row, Content.UNPLAYABLE);
         }
-        state[numCols / 2][numRows / 2 - 1] = Content.BLACK;
-        state[numCols / 2 - 1][numRows / 2] = Content.BLACK;
-        state[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
-        state[numCols / 2][numRows / 2] = Content.WHITE;
+        boardState[numCols / 2][numRows / 2 - 1] = Content.BLACK;
+        boardState[numCols / 2 - 1][numRows / 2] = Content.BLACK;
+        boardState[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
+        boardState[numCols / 2][numRows / 2] = Content.WHITE;
 
         for (Coordinates move : moveSequence) {
             try {
                 applyMove(move);
             } catch (IllegalMoveException e) {
+                System.out.println("Found illegal move in initialization sequence.");
                 // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
-                return state;
+                break;
             }
         }
-        return state;
-
+        reassignMoveAvailability();
     }
 
     /* Return true if the given coordinate is on the board, false otherwise. */
@@ -141,7 +121,7 @@ class Model {
      * @throws ArrayIndexOutOfBoundsException: If given location is off the board.
      */
     private Content contentOf(Coordinates location) {
-        return state[location.x][location.y];
+        return boardState[location.x][location.y];
     }
 
     /**
@@ -149,11 +129,11 @@ class Model {
      * @param newContent: New value for the given location
      */
     private void setContentAtCoordinates(Coordinates location, Content newContent) {
-        state[location.x][location.y] = newContent;
+        boardState[location.x][location.y] = newContent;
     }
 
     Content[][] getBoardContents() {
-        return state;
+        return boardState;
     }
 
     MoveSequence getMoveSequence() {
@@ -228,7 +208,7 @@ class Model {
                 curLocation.y += direction[1];
             }
         }
-        if (!(flippedLocations.isEmpty())){
+        if (!(flippedLocations.isEmpty())) {
             System.out.println(flippedLocations);
         }
         //System.out.println(flippedLocations);
@@ -256,6 +236,18 @@ class Model {
             for (int j = 0; j < numCols; j++) {
                 Coordinates location = new Coordinates(i, j);
                 if (contentOf(location).equals(c)) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
+    static int countLocationsContaining(Content[][] boardState, Content c) {
+        int total = 0;
+        for (Content[] row : boardState) {
+            for (Content square : row) {
+                if (square.equals(c)) {
                     total++;
                 }
             }
@@ -302,7 +294,7 @@ class Model {
      * Applies the given move to the board's state, and adds to move history.
      * Then, changes to other player's turn and calculates available moves for next player.
      *
-     * @throws IllegalMoveException if given move is illegal (then does not change state)
+     * @throws IllegalMoveException if given move is illegal (then does not change boardState)
      */
     void applyMove(Coordinates move) throws IllegalMoveException {
         if (!isLegalMove(move)) {
@@ -332,16 +324,9 @@ class Model {
         }
     }
 
-    //Called by undo button, removes last move from the move sequence
-    void removeLastfromMoveSequence(){
+    void undoMove() {
         moveSequence.removeLast();
-
-    }
-
-    void reconstructFromUndoneMove(){
-        this.setState(this.moveSequence);
-        alternateTurn();
-        this.reassignMoveAvailability();
-
+        initializeFromMoves(moveSequence);
+//        alternateTurn();
     }
 }

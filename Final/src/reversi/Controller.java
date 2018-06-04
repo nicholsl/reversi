@@ -62,8 +62,7 @@ public class Controller implements EventHandler<MouseEvent> {
 
         if(mouseevent.getSource() == undo){
             System.out.println("hello");
-            model.removeLastfromMoveSequence();
-            model.reconstructFromUndoneMove();
+            model.undoMove();
             updatePseudoObservers();
             updateCounts();
 
