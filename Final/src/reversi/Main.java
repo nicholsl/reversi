@@ -1,3 +1,8 @@
+/* By Josh Gerstein and Liz Nichols, 6/3/2018.
+ * Model is the part of the model that stores the current state of a game, along with the full sequence of moves that
+ * have been played in that game.
+ */
+
 package edu.carleton.gersteinj.reversi;
 
 import javafx.application.Application;
@@ -32,9 +37,7 @@ public class Main extends Application {
         primaryStage.show();
 
         controller.boardView.setOnMousePressed(controller);
-
-
-
+        controller.undo.setOnMousePressed(controller);
 
     }
 

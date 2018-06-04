@@ -319,8 +319,15 @@ class Model {
             reassignMoveAvailability();
         }
     }
-    void undoMove(){
+
+    //Called by undo button, removes last move from the move sequence
+    void removeLastfromMoveSequence(){
         moveSequence.removeLast();
 
     }
+
+//    static reconstructFromUndoneMove(){
+//
+//
+//    }
 }

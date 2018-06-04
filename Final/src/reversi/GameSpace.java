@@ -1,3 +1,7 @@
+/* By Josh Gerstein and Liz Nichols, 6/3/2018.
+ * The BoardView consists of nodes that are GameSpaces. GameSpaces change color based on their state
+ * State information comes from the model
+ */
 package edu.carleton.gersteinj.reversi;
 
 import javafx.scene.paint.Color;

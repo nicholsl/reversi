@@ -1,3 +1,8 @@
+/* By Josh Gerstein and Liz Nichols, 6/3/2018.
+ * BoardView is main view for the game, and
+ * Is instantiated by Controller
+ */
+
 package edu.carleton.gersteinj.reversi;
 
 import javafx.fxml.FXML;
@@ -54,34 +59,25 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 
         setStyle("-fx-background-color: #53A548; -fx-grid-lines-visible: true");
 
-        String boardNotationString = "abcdefgh";
+        // canonical board notation is such that columns are lettered and rows are numbered
+        String boardNotationString = "ABCDEFGH";
 
+
+        //ADD GAMESPACES AT EACH NODE IN THE GRAPH PANE
         for (int i = 0; i < boardNotationString.length(); i++) {
             for (int j=0; j<8; j++) {
-//                Circle redCirc = new Circle(4.0, Color.RED);
-//                redCirc.setId(Integer.toString(i*10+j));
-//                add(redCirc,i, j);
                 GameSpace gamespace = new GameSpace(BoardState[i][j], new Coordinates(i, j));
-//                gamespace.setId((Character.toString(boardNotationString.charAt(i))+Integer.toString(j+1)));
-//                gamespace.setId(Integer.toString(i)+Integer.toString(j));
                 add(gamespace,i,j);
                 GridPane.setHalignment(gamespace, HPos.CENTER);
             }
 
         }
-//        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> System.out.println(event.getTarget()));
-        // addEventFilter(MouseEvent.MOUSE_CLICKED);
-
-
-
 
     }
 
+    //UPDATES CONTENT BASED ON BOARD STATE - RUN FROM THE PSEUDOOBSERVER
     public void update(Content[][] boardState) {
         //TODO
-
-//        int moveX = Character.getNumericValue(node.getId().charAt(0));
-//        int moveY = Character.getNumericValue(source.getId().charAt(1));
 
         for (Node child : getChildren()){
             if (child instanceof GameSpace){
@@ -93,36 +89,6 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
         }
 
 
-//        System.out.println("board state is" + boardState);
-//        for (int row = 0; row < boardState.length; row ++){
-//            for (int col = 0; col < boardState.length; col++){
-//                this.
-//            }
-//        }
-
     }
-
-
-//
-//    Group root = new Group();
-//    Scene s = new Scene(root, 300, 300, Color.BLACK);
-//
-//    Rectangle rect = new Rectangle(25,25,250,250);
-
-
-    //root.getChildren().add(r);
-
-
-//    Boardskin(Model board);
-//
-//    private final Square[][] squares = new Square[8][8];
-//
-//    getStyleClass().add("board");
-//
-//    for(int i = 0; i < 8; i++) {
-//        for (int j = 0; j < 8; j++) {
-//            add(board.getSquare(i, j).getSkin(), i, j);
-//        }
-//    }
 }
 
