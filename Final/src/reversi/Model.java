@@ -47,7 +47,7 @@ class Model {
         initializeFromMoves(moveSequence);
     }
 
-    void initializeFromMoves(MoveSequence movesequence) {
+    void initializeFromMoves(MoveSequence moveSequence) {
         blackToMove = true;
         boardState = new Content[numRows][numCols];
         // Set starting pieces
@@ -133,7 +133,7 @@ class Model {
     }
 
     Content[][] getBoardContents() {
-        return boardState;
+        return boardState.clone();
     }
 
     MoveSequence getMoveSequence() {
@@ -297,7 +297,9 @@ class Model {
      * @throws IllegalMoveException if given move is illegal (then does not change boardState)
      */
     void applyMove(Coordinates move) throws IllegalMoveException {
-        if (!isLegalMove(move)) {
+        if (move == null){
+
+        } else if (!isLegalMove(move)) {
             // Throw IllegalMoveException with appropriate reason
             String reason = curPlayerString() + " piece cannot be placed at " + move.toString();
             if (!isMoveOnBoard(move)) {

@@ -6,11 +6,10 @@
 package edu.carleton.gersteinj.reversi;
 
 import javafx.event.EventHandler;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.Node;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -38,36 +37,37 @@ public class Controller implements EventHandler<MouseEvent> {
         updateCounts();
     }
 
-
-    public void handle(MouseEvent mouseevent) {
-        final Node source = (Node) mouseevent.getTarget();
-
-        System.out.println(source.getId());
-        //TODO: delete console logging and comments
-        // Class sourceclass = source.getClass();
-
-        if (source instanceof GameSpace) {
-            System.out.println("this is a gamespace");
-//            int moveX = Character.getNumericValue(source.getId().charAt(0));
-//            int moveY = Character.getNumericValue(source.getId().charAt(1));
-            Coordinates move = ((GameSpace) source).getLocation();
-            try {
-                model.applyMove(move);
-                updatePseudoObservers();
-                updateCounts();
-            } catch (IllegalMoveException e) {
-                System.out.println("NOT A VALID MOVE: " + e.getReason());
-            }
+    public void handle(MouseEvent mouseEvent) {
+        EventTarget target = mouseEvent.getTarget();
+        if (target.equals(boardView)) {
+            mouseEvent.consume();
         }
-
-        if(mouseevent.getSource() == undo){
-            System.out.println("hello");
+        if (target instanceof GameSpace && boardView.getChildren().contains(target)) {
+            GameSpace gameSpace = (GameSpace) target;
+            Coordinates move = gameSpace.getLocation();
+            updateWithMove(move);
+        }
+        if (mouseEvent.getSource() == undo) {
             model.undoMove();
-            updatePseudoObservers();
-            updateCounts();
-
         }
+        updatePseudoObservers();
+    }
 
+    private void updateWithMove(Coordinates move) {
+        try {
+            model.applyMove(move);
+            updatePseudoObservers();
+        } catch (IllegalMoveException e) {
+            System.out.println("Illegal Move: " + e.getReason());
+        }
+        alertIfCantPlay();
+    }
+
+    private void alertIfCantPlay() {
+        Model.GameStatus gameStatus = model.determineOutcome();
+        if (gameStatus.gameFinished) {
+            System.out.println("");
+        }
     }
 
     //update all observed objects contained in pseudoobserver list from the boardstate
