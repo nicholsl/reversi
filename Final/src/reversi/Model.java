@@ -44,9 +44,13 @@ class Model {
         this.numRows = numRows;
         this.numCols = numCols;
         this.moveSequence = moveSequence;
+        initializeFromMoves(moveSequence);
+    }
+
+    void initializeFromMoves(MoveSequence movesequence) {
         blackToMove = true;
-        // Set starting pieces
         boardState = new Content[numRows][numCols];
+        // Set starting pieces
         for (Content[] row : boardState) {
             Arrays.fill(row, Content.UNPLAYABLE);
         }
@@ -59,12 +63,12 @@ class Model {
             try {
                 applyMove(move);
             } catch (IllegalMoveException e) {
+                System.out.println("Found illegal move in initialization sequence.");
                 // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
-                return;
+                break;
             }
         }
-
-       reassignMoveAvailability();
+        reassignMoveAvailability();
     }
 
     /* Return true if the given coordinate is on the board, false otherwise. */
@@ -204,7 +208,7 @@ class Model {
                 curLocation.y += direction[1];
             }
         }
-        if (!(flippedLocations.isEmpty())){
+        if (!(flippedLocations.isEmpty())) {
             System.out.println(flippedLocations);
         }
         //System.out.println(flippedLocations);
@@ -239,7 +243,7 @@ class Model {
         return total;
     }
 
-    static int countLocationsContaining(Content[][] boardState, Content c){
+    static int countLocationsContaining(Content[][] boardState, Content c) {
         int total = 0;
         for (Content[] row : boardState) {
             for (Content square : row) {
@@ -320,14 +324,9 @@ class Model {
         }
     }
 
-    //Called by undo button, removes last move from the move sequence
-    void removeLastfromMoveSequence(){
+    void undoMove() {
         moveSequence.removeLast();
-
+        initializeFromMoves(moveSequence);
+//        alternateTurn();
     }
-
-//    static reconstructFromUndoneMove(){
-//
-//
-//    }
 }
