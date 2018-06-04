@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Controller implements EventHandler<MouseEvent> {
     @FXML
     public BoardView boardView;
     public Button undo;
+    public Text score;
 
     private Model model;
     private List<BoardPseudoObserver> pseudoObservers;
@@ -33,6 +35,7 @@ public class Controller implements EventHandler<MouseEvent> {
         boardView.initialize(model.getNumCols(), model.getNumRows(), model.getBoardContents());
         pseudoObservers.add(boardView);
         updatePseudoObservers();
+        updateCounts();
     }
 
 
@@ -51,6 +54,7 @@ public class Controller implements EventHandler<MouseEvent> {
             try {
                 model.applyMove(move);
                 updatePseudoObservers();
+                updateCounts();
             } catch (IllegalMoveException e) {
                 System.out.println("NOT A VALID MOVE: " + e.getReason());
             }
@@ -61,6 +65,7 @@ public class Controller implements EventHandler<MouseEvent> {
             model.removeLastfromMoveSequence();
             model.reconstructFromUndoneMove();
             updatePseudoObservers();
+            updateCounts();
 
         }
 
@@ -71,5 +76,14 @@ public class Controller implements EventHandler<MouseEvent> {
         for (BoardPseudoObserver pseudoObserver : pseudoObservers) {
             pseudoObserver.update(model.getBoardContents());
         }
+    }
+
+    private void updateCounts() {
+        int whitescore = model.countLocationsContaining(Content.WHITE);
+        int blackscore = model.countLocationsContaining(Content.BLACK);
+
+        score.setText("White has a score of :" + Integer.toString(whitescore)+"\n"+"\n"
+        + "Black has a score of:" + Integer.toString(blackscore)+"\n");
+
     }
 }
