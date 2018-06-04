@@ -7,6 +7,8 @@ package edu.carleton.gersteinj.reversi;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 
@@ -16,6 +18,7 @@ import java.util.List;
 public class Controller implements EventHandler<MouseEvent> {
     @FXML
     public BoardView boardView;
+    public Button undo;
 
     private Model model;
     private List<BoardPseudoObserver> pseudoObservers;
@@ -48,6 +51,17 @@ public class Controller implements EventHandler<MouseEvent> {
             } catch (IllegalMoveException e){
                 System.out.println("NOT A VALID MOVE");
             }
+        }
+
+        if(mouseevent.getSource() == undo){
+            System.out.println("hello");
+            model.removeLastfromMoveSequence();
+            MoveSequence newMoveSequence = model.getMoveSequence();
+            this.model = new Model(model.getNumCols(), model.getNumRows(), newMoveSequence);
+
+            boardView.initialize(model.getNumCols(), model.getNumRows(), model.getBoardContents());
+
+
         }
 
     }

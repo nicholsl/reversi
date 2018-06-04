@@ -37,7 +37,7 @@ public class Main extends Application {
         primaryStage.show();
 
         controller.boardView.setOnMousePressed(controller);
-
+        controller.undo.setOnMousePressed(controller);
 
     }
 

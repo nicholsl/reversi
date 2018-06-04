@@ -309,8 +309,13 @@ class Model {
     }
 
     //Called by undo button, removes last move from the move sequence
-    void undoMove(){
+    void removeLastfromMoveSequence(){
         moveSequence.removeLast();
 
     }
+
+//    static reconstructFromUndoneMove(){
+//
+//
+//    }
 }
