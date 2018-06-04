@@ -59,10 +59,9 @@ public class Controller implements EventHandler<MouseEvent> {
         if(mouseevent.getSource() == undo){
             System.out.println("hello");
             model.removeLastfromMoveSequence();
-            MoveSequence newMoveSequence = model.getMoveSequence();
-            this.model = new Model(model.getNumCols(), model.getNumRows(), newMoveSequence);
+            model.reconstructFromUndoneMove();
+            updatePseudoObservers();
 
-            boardView.initialize(model.getNumCols(), model.getNumRows(), model.getBoardContents());
         }
 
     }

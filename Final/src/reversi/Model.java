@@ -46,6 +46,30 @@ class Model {
         this.moveSequence = moveSequence;
         blackToMove = true;
         // Set starting pieces
+
+        state = setState(moveSequence);
+//        state = new Content[numRows][numCols];
+//        for (Content[] row : state) {
+//            Arrays.fill(row, Content.UNPLAYABLE);
+//        }
+//        state[numCols / 2][numRows / 2 - 1] = Content.BLACK;
+//        state[numCols / 2 - 1][numRows / 2] = Content.BLACK;
+//        state[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
+//        state[numCols / 2][numRows / 2] = Content.WHITE;
+//
+//        for (Coordinates move : moveSequence) {
+//            try {
+//                applyMove(move);
+//            } catch (IllegalMoveException e) {
+//                // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
+//                return;
+//            }
+//        }
+
+       reassignMoveAvailability();
+    }
+
+    public Content[][] setState(MoveSequence movesequence){
         state = new Content[numRows][numCols];
         for (Content[] row : state) {
             Arrays.fill(row, Content.UNPLAYABLE);
@@ -60,11 +84,11 @@ class Model {
                 applyMove(move);
             } catch (IllegalMoveException e) {
                 // Incredibly sophisticated error handling. Has effect of ignoring all moves after problematic one.
-                return;
+                return state;
             }
         }
+        return state;
 
-       reassignMoveAvailability();
     }
 
     /* Return true if the given coordinate is on the board, false otherwise. */
@@ -314,8 +338,10 @@ class Model {
 
     }
 
-//    static reconstructFromUndoneMove(){
-//
-//
-//    }
+    void reconstructFromUndoneMove(){
+        this.setState(this.moveSequence);
+        alternateTurn();
+        this.reassignMoveAvailability();
+
+    }
 }
