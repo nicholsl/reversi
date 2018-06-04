@@ -62,14 +62,16 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 //                redCirc.setId(Integer.toString(i*10+j));
 //                add(redCirc,i, j);
                 GameSpace gamespace = new GameSpace(BoardState[i][j]);
-                gamespace.setId((Character.toString(boardNotationString.charAt(i))+Integer.toString(j+1)));
+//                gamespace.setId((Character.toString(boardNotationString.charAt(i))+Integer.toString(j+1)));
+                gamespace.setId(Integer.toString(i)+Integer.toString(j));
                 add(gamespace,i,j);
                 GridPane.setHalignment(gamespace, HPos.CENTER);
             }
 
         }
 //        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> System.out.println(event.getTarget()));
-        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> Controller.handle());
+        // addEventFilter(MouseEvent.MOUSE_CLICKED);
+
 
 
 
@@ -77,7 +79,25 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 
     public void update(Content[][] boardState) {
         //TODO
-        System.out.println(boardState);
+
+//        int moveX = Character.getNumericValue(node.getId().charAt(0));
+//        int moveY = Character.getNumericValue(source.getId().charAt(1));
+
+        for (Node node : this.getChildren()){
+            if (node instanceof GameSpace){
+                ((GameSpace) node).setState(boardState[Character.getNumericValue(node.getId().charAt(0))][Character.getNumericValue(node.getId().charAt(1))]);
+                ((GameSpace) node).changeCircleBasedOnState();
+            }
+
+        }
+
+
+//        System.out.println("board state is" + boardState);
+//        for (int row = 0; row < boardState.length; row ++){
+//            for (int col = 0; col < boardState.length; col++){
+//                this.
+//            }
+//        }
 
     }
 

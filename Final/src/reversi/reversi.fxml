@@ -5,7 +5,11 @@
 <?import javafx.scene.control.Label?>
 <BorderPane fx:controller="edu.carleton.gersteinj.reversi.Controller"
             xmlns:fx="http://javafx.com/fxml">
+    <top>
+    <Button fx:id="undo" prefWidth="100.0"> Undo move </Button>
+    </top>
     <center>
         <BoardView fx:id="boardView" squareSize="80"/>
     </center>
+
 </BorderPane>

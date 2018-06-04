@@ -24,11 +24,17 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Reversi");
 
+
         Controller controller = loader.getController();
         //BoardView theboard = new BoardView();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        controller.boardView.setOnMousePressed(controller);
+
+        
+
 
     }
 

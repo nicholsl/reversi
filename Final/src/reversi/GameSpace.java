@@ -19,19 +19,24 @@ public class GameSpace extends Circle {
         // Circle circle = new Circle(10,Color.DARKGREEN);
         if (content == Content.PLAYABLE){
             this.state = State.PLAYABLE;
+            this.setRadius(38);
         }
         else if (content == Content.WHITE){
             this.state = State.WHITE;
+            this.setRadius(38);
         }
         else if (content == Content.BLACK){
             this.state = State.BLACK;
+            this.setRadius(38);
         }
         else if (content == Content.UNPLAYABLE){
             this.state = State.UNPLAYABLE;
+            this.setRadius(38);
         }
 
         if (this.state == State.UNPLAYABLE) {
             this.setFill(Color.valueOf("#4C934C"));
+            this.setRadius(38);
         }
         if (this.state == State.PLAYABLE){
             this.setFill(Color.valueOf("#EDC9FF"));
@@ -42,9 +47,11 @@ public class GameSpace extends Circle {
         }
         else if (this.state == State.WHITE){
             this.setFill(Color.valueOf("#FBFAF8"));
+            this.setRadius(38);
         }
         else if (this.state == State.BLACK){
             this.setFill(Color.valueOf("#0A122A"));
+            this.setRadius(38);
         }
 //        ReadOnlyObjectWrapper<State> state = new javafx.beans.property.ReadOnlyObjectWrapper<>(State.EMPTY);
 
@@ -71,6 +78,7 @@ public class GameSpace extends Circle {
     public void changeCircleBasedOnState(){
         if (this.state == State.UNPLAYABLE) {
             this.setFill(Color.valueOf("#4C934C"));
+            this.setRadius(38);
         }
         if (this.state == State.PLAYABLE){
             this.setFill(Color.valueOf("#EDC9FF"));
@@ -78,9 +86,11 @@ public class GameSpace extends Circle {
         }
         else if (this.state == State.WHITE){
             this.setFill(Color.valueOf("#FBFAF8"));
+            this.setRadius(38);
         }
         else if (this.state == State.BLACK){
             this.setFill(Color.valueOf("#0A122A"));
+            this.setRadius(38);
         }
     }
 

@@ -144,10 +144,8 @@ class Model {
             for (int j = 0; j < numRows; j++) {
                 Coordinates move = new Coordinates(i, j);
                 if (isLegalMove(move)) {
-                    System.out.println(move + "is a legal move");
                     setContentAtCoordinates(move, Content.PLAYABLE);
                 } else if (contentOf(move).isEmpty()) {
-                    System.out.println(move+ "is not a legal move");
                     setContentAtCoordinates(move, Content.UNPLAYABLE);
                 }
             }
@@ -206,7 +204,10 @@ class Model {
                 curLocation.y += direction[1];
             }
         }
-        System.out.println(flippedLocations);
+        if (!(flippedLocations.isEmpty())){
+            System.out.println(flippedLocations);
+        }
+        //System.out.println(flippedLocations);
         return flippedLocations;
     }
 
@@ -292,16 +293,22 @@ class Model {
             }
             throw new IllegalMoveException(move, reason);
         } else {
-            setContentAtCoordinates(move, curPlayerPiece());
+
             // Flip each opponent piece affected by move
+            System.out.println(getLocationsFlippedByMove(move));
             for (Coordinates location : getLocationsFlippedByMove(move)) {
                 setContentAtCoordinates(location, curPlayerPiece());
             }
-            alternateTurn();
 
+            setContentAtCoordinates(move, curPlayerPiece());
+            alternateTurn();
             // Add move to move sequence, reassign PLAYABLE/UNPLAYABLE
             moveSequence.addLast(move);
             reassignMoveAvailability();
         }
+    }
+    void undoMove(){
+        moveSequence.removeLast();
+
     }
 }
