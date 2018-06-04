@@ -33,7 +33,7 @@ public class Main extends Application {
 
         controller.boardView.setOnMousePressed(controller);
 
-        
+
 
 
     }

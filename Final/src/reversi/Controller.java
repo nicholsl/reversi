@@ -47,8 +47,8 @@ public class Controller implements EventHandler<MouseEvent> {
             }
         }
 
-        if (source.getId()=='undo')
-            model.undoMove();
+//        if (source.getId()=='undo')
+//            model.undoMove();
 
 
 
