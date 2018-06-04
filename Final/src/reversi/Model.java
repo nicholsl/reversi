@@ -13,7 +13,7 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
         //TODO: Remove this line and delete/restrict methods as appropriate when done
 class Model {
-    private Content[][] state;
+    private Content[][] boardState;
     private boolean blackToMove;
     private MoveSequence moveSequence;
     private final int numRows;
@@ -46,14 +46,14 @@ class Model {
         this.moveSequence = moveSequence;
         blackToMove = true;
         // Set starting pieces
-        state = new Content[numRows][numCols];
-        for (Content[] row : state) {
+        boardState = new Content[numRows][numCols];
+        for (Content[] row : boardState) {
             Arrays.fill(row, Content.UNPLAYABLE);
         }
-        state[numCols / 2][numRows / 2 - 1] = Content.BLACK;
-        state[numCols / 2 - 1][numRows / 2] = Content.BLACK;
-        state[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
-        state[numCols / 2][numRows / 2] = Content.WHITE;
+        boardState[numCols / 2][numRows / 2 - 1] = Content.BLACK;
+        boardState[numCols / 2 - 1][numRows / 2] = Content.BLACK;
+        boardState[numCols / 2 - 1][numRows / 2 - 1] = Content.WHITE;
+        boardState[numCols / 2][numRows / 2] = Content.WHITE;
 
         for (Coordinates move : moveSequence) {
             try {
@@ -117,7 +117,7 @@ class Model {
      * @throws ArrayIndexOutOfBoundsException: If given location is off the board.
      */
     private Content contentOf(Coordinates location) {
-        return state[location.x][location.y];
+        return boardState[location.x][location.y];
     }
 
     /**
@@ -125,11 +125,11 @@ class Model {
      * @param newContent: New value for the given location
      */
     private void setContentAtCoordinates(Coordinates location, Content newContent) {
-        state[location.x][location.y] = newContent;
+        boardState[location.x][location.y] = newContent;
     }
 
     Content[][] getBoardContents() {
-        return state;
+        return boardState;
     }
 
     MoveSequence getMoveSequence() {
@@ -239,6 +239,18 @@ class Model {
         return total;
     }
 
+    static int countLocationsContaining(Content[][] boardState, Content c){
+        int total = 0;
+        for (Content[] row : boardState) {
+            for (Content square : row) {
+                if (square.equals(c)) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
     /* Extremely simple struct-like subclass */
     static class GameStatus {
         final boolean gameFinished;
@@ -278,7 +290,7 @@ class Model {
      * Applies the given move to the board's state, and adds to move history.
      * Then, changes to other player's turn and calculates available moves for next player.
      *
-     * @throws IllegalMoveException if given move is illegal (then does not change state)
+     * @throws IllegalMoveException if given move is illegal (then does not change boardState)
      */
     void applyMove(Coordinates move) throws IllegalMoveException {
         if (!isLegalMove(move)) {
