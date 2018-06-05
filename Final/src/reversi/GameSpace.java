@@ -12,7 +12,9 @@ class GameSpace extends Circle {
     private Content content;
     private final Coordinates location;
 
-
+    /*
+    constructs game space using content, and a coordinates location object
+     */
     GameSpace(Content content, Coordinates location){
         super(50,5,38, Color.valueOf("#4C934C"));
         this.location = location;
@@ -49,6 +51,9 @@ class GameSpace extends Circle {
                 break;
         }
     }
+    /*
+    updates the content of a circle node
+     */
     void update(Content content) {
         setState(content);
         changeCircleBasedOnState();

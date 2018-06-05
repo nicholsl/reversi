@@ -208,10 +208,6 @@ class Model {
                 curLocation.y += direction[1];
             }
         }
-        if (!(flippedLocations.isEmpty())) {
-            System.out.println(flippedLocations);
-        }
-        //System.out.println(flippedLocations);
         return flippedLocations;
     }
 
@@ -258,13 +254,15 @@ class Model {
     /* Extremely simple struct-like subclass */
     static class GameStatus {
         final boolean gameFinished;
+        boolean turnSkipped;
         final int blackScore;
         final int whiteScore;
 
-        GameStatus(boolean gameFinished, int blackScore, int whiteScore) {
+        GameStatus(boolean gameFinished, int blackScore, int whiteScore, boolean turnSkipped) {
             this.gameFinished = gameFinished;
             this.blackScore = blackScore;
             this.whiteScore = whiteScore;
+            this.turnSkipped = turnSkipped;
         }
     }
 
@@ -276,9 +274,11 @@ class Model {
         int blackScore = countLocationsContaining(Content.BLACK);
         int whiteScore = countLocationsContaining(Content.WHITE);
         boolean gameFinished;
+        boolean turnSkipped;
         int playableCount = countLocationsContaining(Content.PLAYABLE);
         if (playableCount > 0) {
             gameFinished = false;
+            turnSkipped = false;
         } else {
             // Check if other player has any available moves, then reverse the side effects that causes.
             alternateTurn();
@@ -286,8 +286,13 @@ class Model {
             gameFinished = countLocationsContaining(Content.PLAYABLE) == 0;
             alternateTurn();
             reassignMoveAvailability();
+            if (!gameFinished){
+                turnSkipped = true;
+            } else{
+                turnSkipped = false;
+            }
         }
-        return new GameStatus(gameFinished, blackScore, whiteScore);
+        return new GameStatus(gameFinished, blackScore, whiteScore, turnSkipped);
     }
 
     /**
@@ -297,7 +302,10 @@ class Model {
      * @throws IllegalMoveException if given move is illegal (then does not change boardState)
      */
     void applyMove(Coordinates move) throws IllegalMoveException {
-        if (move == null){
+        if (move == null) {
+            moveSequence.add(null);
+//            alternateTurn();
+//            reassignMoveAvailability();
 
         } else if (!isLegalMove(move)) {
             // Throw IllegalMoveException with appropriate reason
@@ -313,7 +321,6 @@ class Model {
         } else {
 
             // Flip each opponent piece affected by move
-            System.out.println(getLocationsFlippedByMove(move));
             for (Coordinates location : getLocationsFlippedByMove(move)) {
                 setContentAtCoordinates(location, curPlayerPiece());
             }
@@ -323,6 +330,22 @@ class Model {
             // Add move to move sequence, reassign PLAYABLE/UNPLAYABLE
             moveSequence.addLast(move);
             reassignMoveAvailability();
+            if (!hasPlayableMove()) {
+
+                alternateTurn();
+                reassignMoveAvailability();
+            }
+        }
+    }
+    /*
+    Determines whether there is a playable move for current player
+     */
+    boolean hasPlayableMove(){
+        int numPlayable = countLocationsContaining(Content.PLAYABLE);
+        if (numPlayable == 0){
+            return false;
+        } else {
+            return true;
         }
     }
 

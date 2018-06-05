@@ -75,7 +75,9 @@ public class BoardView extends GridPane implements BoardPseudoObserver {
 
     }
 
-    //UPDATES CONTENT BASED ON BOARD STATE - RUN FROM THE PSEUDOOBSERVER
+    //*
+    // UPDATES CONTENT BASED ON BOARD STATE - RUN FROM THE PSEUDOOBSERVER
+    //
     public void update(Content[][] boardState) {
         //TODO
 

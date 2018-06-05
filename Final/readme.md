@@ -1,4 +1,7 @@
 Joshua Gerstein, Liz Nichols
+CURRENT STATUS - 
+Undo move sometimes crashes program
+
 05/25/2018
 
 We will make a single-player Othello game that you play against a computer player. 
@@ -28,3 +31,4 @@ board, piece, board location, game history
 Controller will:
 - initialize the board
 - determine whether the game is over
+
